@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fightlandlord.sys_back.dao.MedicineListMapper">
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.MedicineList">
+    <id column="medicine_list_id" jdbcType="VARCHAR" property="medicineListId" />
+    <result column="medicine_name" jdbcType="VARCHAR" property="medicineName" />
+    <result column="medicine_num" jdbcType="INTEGER" property="medicineNum" />
+    <result column="medicine_price" jdbcType="REAL" property="medicinePrice" />
+    <result column="medicine_description" jdbcType="CHAR" property="medicineDescription" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    medicine_list_id, medicine_name, medicine_num, medicine_price, medicine_description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from medicine_list
+    where medicine_list_id = #{medicineListId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from medicine_list
+    where medicine_list_id = #{medicineListId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.MedicineList">
+    insert into medicine_list (medicine_list_id, medicine_name, medicine_num, 
+      medicine_price, medicine_description)
+    values (#{medicineListId,jdbcType=VARCHAR}, #{medicineName,jdbcType=VARCHAR}, #{medicineNum,jdbcType=INTEGER}, 
+      #{medicinePrice,jdbcType=REAL}, #{medicineDescription,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.MedicineList">
+    insert into medicine_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="medicineListId != null">
+        medicine_list_id,
+      </if>
+      <if test="medicineName != null">
+        medicine_name,
+      </if>
+      <if test="medicineNum != null">
+        medicine_num,
+      </if>
+      <if test="medicinePrice != null">
+        medicine_price,
+      </if>
+      <if test="medicineDescription != null">
+        medicine_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="medicineListId != null">
+        #{medicineListId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineName != null">
+        #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineNum != null">
+        #{medicineNum,jdbcType=INTEGER},
+      </if>
+      <if test="medicinePrice != null">
+        #{medicinePrice,jdbcType=REAL},
+      </if>
+      <if test="medicineDescription != null">
+        #{medicineDescription,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.MedicineList">
+    update medicine_list
+    <set>
+      <if test="medicineName != null">
+        medicine_name = #{medicineName,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineNum != null">
+        medicine_num = #{medicineNum,jdbcType=INTEGER},
+      </if>
+      <if test="medicinePrice != null">
+        medicine_price = #{medicinePrice,jdbcType=REAL},
+      </if>
+      <if test="medicineDescription != null">
+        medicine_description = #{medicineDescription,jdbcType=CHAR},
+      </if>
+    </set>
+    where medicine_list_id = #{medicineListId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.MedicineList">
+    update medicine_list
+    set medicine_name = #{medicineName,jdbcType=VARCHAR},
+      medicine_num = #{medicineNum,jdbcType=INTEGER},
+      medicine_price = #{medicinePrice,jdbcType=REAL},
+      medicine_description = #{medicineDescription,jdbcType=CHAR}
+    where medicine_list_id = #{medicineListId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fightlandlord.sys_back.dao.PatientMapper">
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.Patient">
+    <id column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="subscribe_cancel_nums_in_one_month" jdbcType="INTEGER" property="subscribeCancelNumsInOneMonth" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="password" jdbcType="CHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    patient_id, gender, age, subscribe_cancel_nums_in_one_month, name, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from patient
+    where patient_id = #{patientId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from patient
+    where patient_id = #{patientId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.Patient">
+    insert into patient (patient_id, gender, age, 
+      subscribe_cancel_nums_in_one_month, name, password
+      )
+    values (#{patientId,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{subscribeCancelNumsInOneMonth,jdbcType=INTEGER}, #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.Patient">
+    insert into patient
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="subscribeCancelNumsInOneMonth != null">
+        subscribe_cancel_nums_in_one_month,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="subscribeCancelNumsInOneMonth != null">
+        #{subscribeCancelNumsInOneMonth,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.Patient">
+    update patient
+    <set>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="subscribeCancelNumsInOneMonth != null">
+        subscribe_cancel_nums_in_one_month = #{subscribeCancelNumsInOneMonth,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+    </set>
+    where patient_id = #{patientId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.Patient">
+    update patient
+    set gender = #{gender,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      subscribe_cancel_nums_in_one_month = #{subscribeCancelNumsInOneMonth,jdbcType=INTEGER},
+      name = #{name,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR}
+    where patient_id = #{patientId,jdbcType=VARCHAR}
+  </update>
+</mapper>

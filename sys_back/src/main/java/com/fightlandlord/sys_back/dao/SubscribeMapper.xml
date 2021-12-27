@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fightlandlord.sys_back.dao.SubscribeMapper">
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.Subscribe">
+    <id column="subscribe_id" jdbcType="VARCHAR" property="subscribeId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="subscribe_choice" jdbcType="VARCHAR" property="subscribeChoice" />
+    <result column="subscribe_time" jdbcType="TIMESTAMP" property="subscribeTime" />
+    <result column="subscribe_state" jdbcType="INTEGER" property="subscribeState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    subscribe_id, patient_id, subscribe_choice, subscribe_time, subscribe_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from subscribe
+    where subscribe_id = #{subscribeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from subscribe
+    where subscribe_id = #{subscribeId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.Subscribe">
+    insert into subscribe (subscribe_id, patient_id, subscribe_choice, 
+      subscribe_time, subscribe_state)
+    values (#{subscribeId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{subscribeChoice,jdbcType=VARCHAR}, 
+      #{subscribeTime,jdbcType=TIMESTAMP}, #{subscribeState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.Subscribe">
+    insert into subscribe
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="subscribeId != null">
+        subscribe_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="subscribeChoice != null">
+        subscribe_choice,
+      </if>
+      <if test="subscribeTime != null">
+        subscribe_time,
+      </if>
+      <if test="subscribeState != null">
+        subscribe_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="subscribeId != null">
+        #{subscribeId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeChoice != null">
+        #{subscribeChoice,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeTime != null">
+        #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscribeState != null">
+        #{subscribeState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.Subscribe">
+    update subscribe
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeChoice != null">
+        subscribe_choice = #{subscribeChoice,jdbcType=VARCHAR},
+      </if>
+      <if test="subscribeTime != null">
+        subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="subscribeState != null">
+        subscribe_state = #{subscribeState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where subscribe_id = #{subscribeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.Subscribe">
+    update subscribe
+    set patient_id = #{patientId,jdbcType=VARCHAR},
+      subscribe_choice = #{subscribeChoice,jdbcType=VARCHAR},
+      subscribe_time = #{subscribeTime,jdbcType=TIMESTAMP},
+      subscribe_state = #{subscribeState,jdbcType=INTEGER}
+    where subscribe_id = #{subscribeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

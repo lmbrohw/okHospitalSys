@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fightlandlord.sys_back.dao.CheckTableMapper">
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.CheckTable">
+    <id column="check_table_id" jdbcType="VARCHAR" property="checkTableId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
+    <result column="total_price" jdbcType="REAL" property="totalPrice" />
+    <result column="check_table_state" jdbcType="INTEGER" property="checkTableState" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    check_table_id, patient_id, doctor_id, total_price, check_table_state
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_table
+    where check_table_id = #{checkTableId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from check_table
+    where check_table_id = #{checkTableId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.CheckTable">
+    insert into check_table (check_table_id, patient_id, doctor_id, 
+      total_price, check_table_state)
+    values (#{checkTableId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{doctorId,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=REAL}, #{checkTableState,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.CheckTable">
+    insert into check_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="checkTableId != null">
+        check_table_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="checkTableState != null">
+        check_table_state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="checkTableId != null">
+        #{checkTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="checkTableState != null">
+        #{checkTableState,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.CheckTable">
+    update check_table
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=REAL},
+      </if>
+      <if test="checkTableState != null">
+        check_table_state = #{checkTableState,jdbcType=INTEGER},
+      </if>
+    </set>
+    where check_table_id = #{checkTableId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.CheckTable">
+    update check_table
+    set patient_id = #{patientId,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=REAL},
+      check_table_state = #{checkTableState,jdbcType=INTEGER}
+    where check_table_id = #{checkTableId,jdbcType=VARCHAR}
+  </update>
+</mapper>
