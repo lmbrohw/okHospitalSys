@@ -19,10 +19,17 @@ public class ChargerRouterController {
     * @Return json格式的收费单数据
     */
     @GetMapping(value = "/getChargeTable")
+<<<<<<< HEAD
+    public String getChargeTable(@RequestParam("tableID") String tableID){
+//        System.out.println("ID is " + tableID);
+//        ChargeTable chargeTable = chargeTableService.queryById(tableID);
+        return "getChargeTable";
+=======
     public ChargeTable getChargeTable(@RequestParam("tableID") String tableID){
         System.out.println("ID is " + tableID);
         ChargeTable chargeTable = chargeTableService.queryById(tableID);
         return chargeTable;
+>>>>>>> 75e2df208f874b09d79dec13919cfefb5607bc41
     }
 
     /**
