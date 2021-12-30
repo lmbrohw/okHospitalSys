@@ -6,15 +6,8 @@ import com.fightlandlord.sys_back.service.ChargeTableService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
 public class ChargeTableServiceImpl implements ChargeTableService {
 
-=======
-@Service
-public class ChargeTableServiceImpl implements ChargeTableService {
-
-    @Autowired
->>>>>>> 75e2df208f874b09d79dec13919cfefb5607bc41
     ChargeTableMapper chargeTableMapper;
 
     @Override

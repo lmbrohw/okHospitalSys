@@ -1,6 +1,5 @@
 package com.fightlandlord.sys_back.web.router;
 
-<<<<<<< HEAD
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -34,7 +33,4 @@ public class PatientRouterController {
     public String sendSubscribeState(){
         return "sendSubscribeState";
     }
-=======
-public class PatientRouterController {
->>>>>>> 75e2df208f874b09d79dec13919cfefb5607bc41
 }

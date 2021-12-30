@@ -1,6 +1,5 @@
 package com.fightlandlord.sys_back.web.router;
 
-<<<<<<< HEAD
 import com.fightlandlord.sys_back.model.ChargeTable;
 import com.fightlandlord.sys_back.model.MedicineTable;
 import com.fightlandlord.sys_back.service.MedicineTableService;
@@ -61,8 +60,5 @@ public class DispenserRouterController {
     public String sendMedicineTableState(){
         return "sendMedicineTableState";
     }
-    
-=======
-public class DispenserRouterController {
->>>>>>> 75e2df208f874b09d79dec13919cfefb5607bc41
+
 }
