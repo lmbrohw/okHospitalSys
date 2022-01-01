@@ -90,4 +90,93 @@
       password = #{password,jdbcType=CHAR}
     where pharmacist_id = #{pharmacistId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.Pharmacist">
+    <id column="pharmacist_id" jdbcType="VARCHAR" property="pharmacistId" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="password" jdbcType="CHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    pharmacist_id, gender, age, name, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from pharmacist
+    where pharmacist_id = #{pharmacistId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from pharmacist
+    where pharmacist_id = #{pharmacistId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.Pharmacist">
+    insert into pharmacist (pharmacist_id, gender, age, 
+      name, password)
+    values (#{pharmacistId,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.Pharmacist">
+    insert into pharmacist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="pharmacistId != null">
+        pharmacist_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="pharmacistId != null">
+        #{pharmacistId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.Pharmacist">
+    update pharmacist
+    <set>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+    </set>
+    where pharmacist_id = #{pharmacistId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.Pharmacist">
+    update pharmacist
+    set gender = #{gender,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      name = #{name,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR}
+    where pharmacist_id = #{pharmacistId,jdbcType=VARCHAR}
+  </update>
 </mapper>

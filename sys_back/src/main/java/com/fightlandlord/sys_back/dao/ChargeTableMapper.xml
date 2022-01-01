@@ -8,6 +8,120 @@
     <result column="charge_item_id" jdbcType="VARCHAR" property="chargeItemId" />
     <result column="charge_create_time" jdbcType="TIMESTAMP" property="chargeCreateTime" />
     <result column="charge_state" jdbcType="INTEGER" property="chargeState" />
+    <result column="charge_price" jdbcType="INTEGER" property="chargePrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    charge_table_id, patient_id, charger_id, charge_item_id, charge_create_time, charge_state, 
+    charge_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from charge_table
+    where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from charge_table
+    where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
+    insert into charge_table (charge_table_id, patient_id, charger_id, 
+      charge_item_id, charge_create_time, charge_state, 
+      charge_price)
+    values (#{chargeTableId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{chargerId,jdbcType=VARCHAR}, 
+      #{chargeItemId,jdbcType=VARCHAR}, #{chargeCreateTime,jdbcType=TIMESTAMP}, #{chargeState,jdbcType=INTEGER}, 
+      #{chargePrice,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
+    insert into charge_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="chargeTableId != null">
+        charge_table_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="chargerId != null">
+        charger_id,
+      </if>
+      <if test="chargeItemId != null">
+        charge_item_id,
+      </if>
+      <if test="chargeCreateTime != null">
+        charge_create_time,
+      </if>
+      <if test="chargeState != null">
+        charge_state,
+      </if>
+      <if test="chargePrice != null">
+        charge_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="chargeTableId != null">
+        #{chargeTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargerId != null">
+        #{chargerId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null">
+        #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeCreateTime != null">
+        #{chargeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeState != null">
+        #{chargeState,jdbcType=INTEGER},
+      </if>
+      <if test="chargePrice != null">
+        #{chargePrice,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
+    update charge_table
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargerId != null">
+        charger_id = #{chargerId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeItemId != null">
+        charge_item_id = #{chargeItemId,jdbcType=VARCHAR},
+      </if>
+      <if test="chargeCreateTime != null">
+        charge_create_time = #{chargeCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="chargeState != null">
+        charge_state = #{chargeState,jdbcType=INTEGER},
+      </if>
+      <if test="chargePrice != null">
+        charge_price = #{chargePrice,jdbcType=INTEGER},
+      </if>
+    </set>
+    where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
+    update charge_table
+    set patient_id = #{patientId,jdbcType=VARCHAR},
+      charger_id = #{chargerId,jdbcType=VARCHAR},
+      charge_item_id = #{chargeItemId,jdbcType=VARCHAR},
+      charge_create_time = #{chargeCreateTime,jdbcType=TIMESTAMP},
+      charge_state = #{chargeState,jdbcType=INTEGER},
+      charge_price = #{chargePrice,jdbcType=INTEGER}
+    where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
+  </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.ChargeTable">
+    <id column="charge_table_id" jdbcType="VARCHAR" property="chargeTableId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="charger_id" jdbcType="VARCHAR" property="chargerId" />
+    <result column="charge_item_id" jdbcType="VARCHAR" property="chargeItemId" />
+    <result column="charge_create_time" jdbcType="TIMESTAMP" property="chargeCreateTime" />
+    <result column="charge_state" jdbcType="INTEGER" property="chargeState" />
   </resultMap>
   <sql id="Base_Column_List">
     charge_table_id, patient_id, charger_id, charge_item_id, charge_create_time, charge_state

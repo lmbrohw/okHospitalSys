@@ -79,4 +79,82 @@
       check_description = #{checkDescription,jdbcType=CHAR}
     where check_list_id = #{checkListId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.CheckList">
+    <id column="check_list_id" jdbcType="VARCHAR" property="checkListId" />
+    <result column="check_name" jdbcType="VARCHAR" property="checkName" />
+    <result column="check_price" jdbcType="REAL" property="checkPrice" />
+    <result column="check_description" jdbcType="CHAR" property="checkDescription" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    check_list_id, check_name, check_price, check_description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_list
+    where check_list_id = #{checkListId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from check_list
+    where check_list_id = #{checkListId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.CheckList">
+    insert into check_list (check_list_id, check_name, check_price, 
+      check_description)
+    values (#{checkListId,jdbcType=VARCHAR}, #{checkName,jdbcType=VARCHAR}, #{checkPrice,jdbcType=REAL}, 
+      #{checkDescription,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.CheckList">
+    insert into check_list
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="checkListId != null">
+        check_list_id,
+      </if>
+      <if test="checkName != null">
+        check_name,
+      </if>
+      <if test="checkPrice != null">
+        check_price,
+      </if>
+      <if test="checkDescription != null">
+        check_description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="checkListId != null">
+        #{checkListId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkName != null">
+        #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPrice != null">
+        #{checkPrice,jdbcType=REAL},
+      </if>
+      <if test="checkDescription != null">
+        #{checkDescription,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.CheckList">
+    update check_list
+    <set>
+      <if test="checkName != null">
+        check_name = #{checkName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkPrice != null">
+        check_price = #{checkPrice,jdbcType=REAL},
+      </if>
+      <if test="checkDescription != null">
+        check_description = #{checkDescription,jdbcType=CHAR},
+      </if>
+    </set>
+    where check_list_id = #{checkListId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.CheckList">
+    update check_list
+    set check_name = #{checkName,jdbcType=VARCHAR},
+      check_price = #{checkPrice,jdbcType=REAL},
+      check_description = #{checkDescription,jdbcType=CHAR}
+    where check_list_id = #{checkListId,jdbcType=VARCHAR}
+  </update>
 </mapper>

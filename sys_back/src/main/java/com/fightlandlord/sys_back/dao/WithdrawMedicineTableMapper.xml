@@ -104,4 +104,107 @@
       total_price = #{totalPrice,jdbcType=REAL}
     where withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.WithdrawMedicineTable">
+    <id column="withdraw_medicine_table_id" jdbcType="VARCHAR" property="withdrawMedicineTableId" />
+    <result column="medicine_table_id" jdbcType="VARCHAR" property="medicineTableId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
+    <result column="dispenser_id" jdbcType="VARCHAR" property="dispenserId" />
+    <result column="total_price" jdbcType="REAL" property="totalPrice" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    withdraw_medicine_table_id, medicine_table_id, patient_id, doctor_id, dispenser_id, 
+    total_price
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from withdraw_medicine_table
+    where withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from withdraw_medicine_table
+    where withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTable">
+    insert into withdraw_medicine_table (withdraw_medicine_table_id, medicine_table_id, 
+      patient_id, doctor_id, dispenser_id, 
+      total_price)
+    values (#{withdrawMedicineTableId,jdbcType=VARCHAR}, #{medicineTableId,jdbcType=VARCHAR}, 
+      #{patientId,jdbcType=VARCHAR}, #{doctorId,jdbcType=VARCHAR}, #{dispenserId,jdbcType=VARCHAR}, 
+      #{totalPrice,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTable">
+    insert into withdraw_medicine_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="withdrawMedicineTableId != null">
+        withdraw_medicine_table_id,
+      </if>
+      <if test="medicineTableId != null">
+        medicine_table_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="dispenserId != null">
+        dispenser_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="withdrawMedicineTableId != null">
+        #{withdrawMedicineTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="medicineTableId != null">
+        #{medicineTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="dispenserId != null">
+        #{dispenserId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTable">
+    update withdraw_medicine_table
+    <set>
+      <if test="medicineTableId != null">
+        medicine_table_id = #{medicineTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="dispenserId != null">
+        dispenser_id = #{dispenserId,jdbcType=VARCHAR},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=REAL},
+      </if>
+    </set>
+    where withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTable">
+    update withdraw_medicine_table
+    set medicine_table_id = #{medicineTableId,jdbcType=VARCHAR},
+      patient_id = #{patientId,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=VARCHAR},
+      dispenser_id = #{dispenserId,jdbcType=VARCHAR},
+      total_price = #{totalPrice,jdbcType=REAL}
+    where withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR}
+  </update>
 </mapper>

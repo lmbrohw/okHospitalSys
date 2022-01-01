@@ -79,4 +79,82 @@
       description = #{description,jdbcType=CHAR}
     where dossier_table_id = #{dossierTableId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.DossierTable">
+    <id column="dossier_table_id" jdbcType="VARCHAR" property="dossierTableId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="doctor_id" jdbcType="VARCHAR" property="doctorId" />
+    <result column="description" jdbcType="CHAR" property="description" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    dossier_table_id, patient_id, doctor_id, description
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dossier_table
+    where dossier_table_id = #{dossierTableId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dossier_table
+    where dossier_table_id = #{dossierTableId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.DossierTable">
+    insert into dossier_table (dossier_table_id, patient_id, doctor_id, 
+      description)
+    values (#{dossierTableId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{doctorId,jdbcType=VARCHAR}, 
+      #{description,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.DossierTable">
+    insert into dossier_table
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="dossierTableId != null">
+        dossier_table_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="doctorId != null">
+        doctor_id,
+      </if>
+      <if test="description != null">
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="dossierTableId != null">
+        #{dossierTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.DossierTable">
+    update dossier_table
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="doctorId != null">
+        doctor_id = #{doctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null">
+        description = #{description,jdbcType=CHAR},
+      </if>
+    </set>
+    where dossier_table_id = #{dossierTableId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.DossierTable">
+    update dossier_table
+    set patient_id = #{patientId,jdbcType=VARCHAR},
+      doctor_id = #{doctorId,jdbcType=VARCHAR},
+      description = #{description,jdbcType=CHAR}
+    where dossier_table_id = #{dossierTableId,jdbcType=VARCHAR}
+  </update>
 </mapper>

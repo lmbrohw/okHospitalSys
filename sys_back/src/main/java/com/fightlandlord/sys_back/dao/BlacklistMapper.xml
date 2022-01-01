@@ -68,4 +68,71 @@
       begin_time = #{beginTime,jdbcType=TIMESTAMP}
     where blacklist_id = #{blacklistId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.Blacklist">
+    <id column="blacklist_id" jdbcType="VARCHAR" property="blacklistId" />
+    <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
+    <result column="begin_time" jdbcType="TIMESTAMP" property="beginTime" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    blacklist_id, patient_id, begin_time
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from blacklist
+    where blacklist_id = #{blacklistId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from blacklist
+    where blacklist_id = #{blacklistId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.Blacklist">
+    insert into blacklist (blacklist_id, patient_id, begin_time
+      )
+    values (#{blacklistId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{beginTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.Blacklist">
+    insert into blacklist
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="blacklistId != null">
+        blacklist_id,
+      </if>
+      <if test="patientId != null">
+        patient_id,
+      </if>
+      <if test="beginTime != null">
+        begin_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="blacklistId != null">
+        #{blacklistId,jdbcType=VARCHAR},
+      </if>
+      <if test="patientId != null">
+        #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null">
+        #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.Blacklist">
+    update blacklist
+    <set>
+      <if test="patientId != null">
+        patient_id = #{patientId,jdbcType=VARCHAR},
+      </if>
+      <if test="beginTime != null">
+        begin_time = #{beginTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where blacklist_id = #{blacklistId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.Blacklist">
+    update blacklist
+    set patient_id = #{patientId,jdbcType=VARCHAR},
+      begin_time = #{beginTime,jdbcType=TIMESTAMP}
+    where blacklist_id = #{blacklistId,jdbcType=VARCHAR}
+  </update>
 </mapper>

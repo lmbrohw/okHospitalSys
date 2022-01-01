@@ -68,4 +68,71 @@
       check_list_id = #{checkListId,jdbcType=VARCHAR}
     where check_table_array_id = #{checkTableArrayId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.CheckTableArray">
+    <id column="check_table_array_id" jdbcType="VARCHAR" property="checkTableArrayId" />
+    <result column="check_table_id" jdbcType="VARCHAR" property="checkTableId" />
+    <result column="check_list_id" jdbcType="VARCHAR" property="checkListId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    check_table_array_id, check_table_id, check_list_id
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from check_table_array
+    where check_table_array_id = #{checkTableArrayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from check_table_array
+    where check_table_array_id = #{checkTableArrayId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.CheckTableArray">
+    insert into check_table_array (check_table_array_id, check_table_id, 
+      check_list_id)
+    values (#{checkTableArrayId,jdbcType=VARCHAR}, #{checkTableId,jdbcType=VARCHAR}, 
+      #{checkListId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.CheckTableArray">
+    insert into check_table_array
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="checkTableArrayId != null">
+        check_table_array_id,
+      </if>
+      <if test="checkTableId != null">
+        check_table_id,
+      </if>
+      <if test="checkListId != null">
+        check_list_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="checkTableArrayId != null">
+        #{checkTableArrayId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkTableId != null">
+        #{checkTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkListId != null">
+        #{checkListId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.CheckTableArray">
+    update check_table_array
+    <set>
+      <if test="checkTableId != null">
+        check_table_id = #{checkTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="checkListId != null">
+        check_list_id = #{checkListId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where check_table_array_id = #{checkTableArrayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.CheckTableArray">
+    update check_table_array
+    set check_table_id = #{checkTableId,jdbcType=VARCHAR},
+      check_list_id = #{checkListId,jdbcType=VARCHAR}
+    where check_table_array_id = #{checkTableArrayId,jdbcType=VARCHAR}
+  </update>
 </mapper>

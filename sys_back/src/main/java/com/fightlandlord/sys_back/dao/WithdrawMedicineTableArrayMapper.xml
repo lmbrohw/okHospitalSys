@@ -82,4 +82,85 @@
       withdraw_medicine_num = #{withdrawMedicineNum,jdbcType=INTEGER}
     where withdraw_medicine_table_array_id = #{withdrawMedicineTableArrayId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.WithdrawMedicineTableArray">
+    <id column="withdraw_medicine_table_array_id" jdbcType="VARCHAR" property="withdrawMedicineTableArrayId" />
+    <result column="withdraw_medicine_table_id" jdbcType="VARCHAR" property="withdrawMedicineTableId" />
+    <result column="withdraw_medicine_list_id" jdbcType="VARCHAR" property="withdrawMedicineListId" />
+    <result column="withdraw_medicine_num" jdbcType="INTEGER" property="withdrawMedicineNum" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    withdraw_medicine_table_array_id, withdraw_medicine_table_id, withdraw_medicine_list_id, 
+    withdraw_medicine_num
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from withdraw_medicine_table_array
+    where withdraw_medicine_table_array_id = #{withdrawMedicineTableArrayId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from withdraw_medicine_table_array
+    where withdraw_medicine_table_array_id = #{withdrawMedicineTableArrayId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTableArray">
+    insert into withdraw_medicine_table_array (withdraw_medicine_table_array_id, withdraw_medicine_table_id, 
+      withdraw_medicine_list_id, withdraw_medicine_num
+      )
+    values (#{withdrawMedicineTableArrayId,jdbcType=VARCHAR}, #{withdrawMedicineTableId,jdbcType=VARCHAR}, 
+      #{withdrawMedicineListId,jdbcType=VARCHAR}, #{withdrawMedicineNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTableArray">
+    insert into withdraw_medicine_table_array
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="withdrawMedicineTableArrayId != null">
+        withdraw_medicine_table_array_id,
+      </if>
+      <if test="withdrawMedicineTableId != null">
+        withdraw_medicine_table_id,
+      </if>
+      <if test="withdrawMedicineListId != null">
+        withdraw_medicine_list_id,
+      </if>
+      <if test="withdrawMedicineNum != null">
+        withdraw_medicine_num,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="withdrawMedicineTableArrayId != null">
+        #{withdrawMedicineTableArrayId,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawMedicineTableId != null">
+        #{withdrawMedicineTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawMedicineListId != null">
+        #{withdrawMedicineListId,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawMedicineNum != null">
+        #{withdrawMedicineNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTableArray">
+    update withdraw_medicine_table_array
+    <set>
+      <if test="withdrawMedicineTableId != null">
+        withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawMedicineListId != null">
+        withdraw_medicine_list_id = #{withdrawMedicineListId,jdbcType=VARCHAR},
+      </if>
+      <if test="withdrawMedicineNum != null">
+        withdraw_medicine_num = #{withdrawMedicineNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where withdraw_medicine_table_array_id = #{withdrawMedicineTableArrayId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.WithdrawMedicineTableArray">
+    update withdraw_medicine_table_array
+    set withdraw_medicine_table_id = #{withdrawMedicineTableId,jdbcType=VARCHAR},
+      withdraw_medicine_list_id = #{withdrawMedicineListId,jdbcType=VARCHAR},
+      withdraw_medicine_num = #{withdrawMedicineNum,jdbcType=INTEGER}
+    where withdraw_medicine_table_array_id = #{withdrawMedicineTableArrayId,jdbcType=VARCHAR}
+  </update>
 </mapper>

@@ -90,4 +90,93 @@
       password = #{password,jdbcType=CHAR}
     where disperser_id = #{disperserId,jdbcType=VARCHAR}
   </update>
+  <resultMap id="BaseResultMap" type="com.fightlandlord.sys_back.model.Dispenser">
+    <id column="disperser_id" jdbcType="VARCHAR" property="disperserId" />
+    <result column="gender" jdbcType="INTEGER" property="gender" />
+    <result column="age" jdbcType="INTEGER" property="age" />
+    <result column="name" jdbcType="CHAR" property="name" />
+    <result column="password" jdbcType="CHAR" property="password" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    disperser_id, gender, age, name, password
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from dispenser
+    where disperser_id = #{disperserId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from dispenser
+    where disperser_id = #{disperserId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fightlandlord.sys_back.model.Dispenser">
+    insert into dispenser (disperser_id, gender, age, 
+      name, password)
+    values (#{disperserId,jdbcType=VARCHAR}, #{gender,jdbcType=INTEGER}, #{age,jdbcType=INTEGER}, 
+      #{name,jdbcType=CHAR}, #{password,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.Dispenser">
+    insert into dispenser
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="disperserId != null">
+        disperser_id,
+      </if>
+      <if test="gender != null">
+        gender,
+      </if>
+      <if test="age != null">
+        age,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="disperserId != null">
+        #{disperserId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null">
+        #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fightlandlord.sys_back.model.Dispenser">
+    update dispenser
+    <set>
+      <if test="gender != null">
+        gender = #{gender,jdbcType=INTEGER},
+      </if>
+      <if test="age != null">
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=CHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=CHAR},
+      </if>
+    </set>
+    where disperser_id = #{disperserId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fightlandlord.sys_back.model.Dispenser">
+    update dispenser
+    set gender = #{gender,jdbcType=INTEGER},
+      age = #{age,jdbcType=INTEGER},
+      name = #{name,jdbcType=CHAR},
+      password = #{password,jdbcType=CHAR}
+    where disperser_id = #{disperserId,jdbcType=VARCHAR}
+  </update>
 </mapper>

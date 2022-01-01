@@ -15,6 +15,8 @@ public class ChargeTable {
 
     private Integer chargeState;
 
+    private Integer chargePrice;
+
     public String getChargeTableId() {
         return chargeTableId;
     }
@@ -61,5 +63,13 @@ public class ChargeTable {
 
     public void setChargeState(Integer chargeState) {
         this.chargeState = chargeState;
+    }
+
+    public Integer getChargePrice() {
+        return chargePrice;
+    }
+
+    public void setChargePrice(Integer chargePrice) {
+        this.chargePrice = chargePrice;
     }
 }
