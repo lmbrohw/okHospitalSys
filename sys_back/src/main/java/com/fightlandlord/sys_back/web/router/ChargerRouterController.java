@@ -3,12 +3,14 @@ package com.fightlandlord.sys_back.web.router;
 import com.fightlandlord.sys_back.model.ChargeTable;
 import com.fightlandlord.sys_back.model.Patient;
 import com.fightlandlord.sys_back.service.ChargeTableService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/charger")
 public class ChargerRouterController {
 
+    @Autowired
     ChargeTableService chargeTableService;
 
     /**

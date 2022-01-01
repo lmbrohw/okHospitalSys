@@ -1,7 +1,7 @@
 package com.fightlandlord.sys_back.model;
 
 public class Dispenser {
-    private String disperserId;
+    private String dispenserId;
 
     private Integer gender;
 
@@ -11,12 +11,12 @@ public class Dispenser {
 
     private String password;
 
-    public String getDisperserId() {
-        return disperserId;
+    public String getDispenserId() {
+        return dispenserId;
     }
 
-    public void setDisperserId(String disperserId) {
-        this.disperserId = disperserId;
+    public void setDispenserId(String dispenserId) {
+        this.dispenserId = dispenserId;
     }
 
     public Integer getGender() {

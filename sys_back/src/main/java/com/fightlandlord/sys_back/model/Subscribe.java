@@ -1,7 +1,10 @@
 package com.fightlandlord.sys_back.model;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Date;
 
+@Component
 public class Subscribe {
     private String subscribeId;
 
