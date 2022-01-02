@@ -11,5 +11,9 @@ import com.fightlandlord.sys_back.model.Subscribe;
 
 public interface SubscribeService {
 
+    Subscribe queryById(String subscribeID);
+
     int insertSubscribe(Subscribe subscribe);
+
+    int modifyById(Subscribe subscribe);
 }

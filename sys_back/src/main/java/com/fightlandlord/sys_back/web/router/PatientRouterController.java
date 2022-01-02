@@ -2,17 +2,13 @@ package com.fightlandlord.sys_back.web.router;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fightlandlord.sys_back.model.Department;
 import com.fightlandlord.sys_back.model.Subscribe;
 import com.fightlandlord.sys_back.service.DepartmentService;
 import com.fightlandlord.sys_back.service.DoctorService;
 import com.fightlandlord.sys_back.service.SubscribeService;
 import com.fightlandlord.sys_back.util.Response;
-import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.lang.annotation.Repeatable;
 import java.util.Date;
 
 
@@ -59,8 +55,10 @@ public class PatientRouterController {
             return Response.error().message("请选择专家或者科室！");
         }
 
-        /** 此处date还需处理
+        /**
+         * 此处date还需处理
         */
+
         Subscribe newSubscribe = new Subscribe(patientID, subscribeChoice, new Date());
 
         if (subscribeService.insertSubscribe(newSubscribe) != 0)
@@ -70,13 +68,27 @@ public class PatientRouterController {
 
     /**
      * @Author: hudongyue
-     * @Description:
+     * @Description: 取消预约
      * @DateTime: 2021/12/28 16:16
      * @Params:
      * @Return
      */
     @PostMapping(value = "/sendSubscribeState")
-    public String sendSubscribeState(){
-        return "sendSubscribeState";
+    public Response sendSubscribeState(@RequestParam("subscribeID") String subscribeID,
+                                       @RequestParam("changeToState") int changeToState){
+
+        // 查询是否存在该subscribe
+        if(subscribeID.substring(0, 2).equals("sb")) {
+            System.out.println("subscribeID:" + subscribeID);
+            Subscribe subscribe = subscribeService.queryById(subscribeID);
+            if(subscribe == null) return Response.error().message("不存在该subscribe！");
+            if(changeToState < 0 || changeToState > 2) return Response.error().message("subscribe不存在该状态");
+            subscribe.setSubscribeState(changeToState);
+            if(subscribeService.modifyById(subscribe) != 0)
+               return Response.ok().message("修改subscribe状态成功！");
+            return Response.error().message("修改subscribe状态失败！");
+        }
+        return Response.error().message("不存在该subscribe！");
+
     }
 }

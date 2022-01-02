@@ -13,7 +13,17 @@ public class SubscribeServiceImpl implements SubscribeService {
     SubscribeMapper subscribeMapper;
 
     @Override
+    public Subscribe queryById(String subscribeID) {
+        return subscribeMapper.selectByPrimaryKey(subscribeID);
+    }
+
+    @Override
     public int insertSubscribe(Subscribe subscribe) {
         return subscribeMapper.insertSelective(subscribe);
+    }
+
+    @Override
+    public int modifyById(Subscribe subscribe) {
+        return subscribeMapper.updateByPrimaryKeySelective(subscribe);
     }
 }

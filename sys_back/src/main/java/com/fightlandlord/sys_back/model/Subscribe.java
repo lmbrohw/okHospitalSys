@@ -15,6 +15,9 @@ public class Subscribe {
 
     private Integer subscribeState;
 
+
+    public  Subscribe() {}
+
     public Subscribe(String patientId, String subscribeChoice, Date subscribeTime) {
         this.subscribeId = UUIDGenerator.makeUUID("sb");
         this.patientId = patientId;
