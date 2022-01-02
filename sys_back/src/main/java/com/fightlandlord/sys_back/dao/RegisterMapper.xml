@@ -22,7 +22,7 @@
     select
     <include refid="Base_Column_List" />
     from register
-    where register_choice = #{doctorId} and register_state = 1 order by register_time asc limit 1
+    where register_choice = #{doctorId} and register_state = 1 and register_time >= NOW() order by register_time asc limit 1
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

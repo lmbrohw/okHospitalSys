@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.Register;
 
+import java.sql.Time;
+
 public interface RegisterMapper {
     int deleteByPrimaryKey(String registerId);
 

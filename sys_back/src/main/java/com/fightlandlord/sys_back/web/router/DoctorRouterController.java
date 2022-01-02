@@ -1,16 +1,16 @@
 package com.fightlandlord.sys_back.web.router;
 
-import com.fightlandlord.sys_back.model.CheckList;
-import com.fightlandlord.sys_back.model.MedicineList;
-import com.fightlandlord.sys_back.model.Register;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.DoctorService;
+import com.fightlandlord.sys_back.util.Response;
+import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/doctor")
@@ -40,8 +40,9 @@ public class DoctorRouterController {
     * @Return
     */
     @GetMapping(value = "/getPatientRecord")
-    public String getPatientRecord(){
-        return "getPatientRecord";
+    public List<DossierTable> getPatientRecord(String patientId){
+
+        return doctorService.getPatientRecord(patientId);
     }
 
     /**
@@ -78,9 +79,20 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendDossierTable")
-    public String sendDossierTable(){
+    public Response sendDossierTable(String doctorId, String patientId, String description){
 
-        return "sendDossierTable";
+        DossierTable dossierTable = new DossierTable();
+        dossierTable.setDossierTableId(UUIDGenerator.makeUUID("DT"));
+        dossierTable.setDoctorId(doctorId);
+        dossierTable.setPatientId(patientId);
+        dossierTable.setDescription(description);
+        int Count = doctorService.sendDossierTable(dossierTable);
+        System.out.println("Count____________" +Count);
+        if(Count != 1)
+            return Response.error().message("失败");
+
+        else
+            return Response.ok().message("病历上传成功");
     }
 
     /**
@@ -91,9 +103,34 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendCheckTable")
-    public String sendCheckTable(){
+    public String sendCheckTable(@RequestBody String params){
+        JSONObject jsonObject = JSON.parseObject(params);
+        JSONObject checkItems = jsonObject.getJSONObject("checkTable");
 
+        CheckTable checkTable = new CheckTable();
+        String checkTableId = UUIDGenerator.makeUUID("CT");
+        checkTable.setCheckTableId(checkTableId);
+        checkTable.setPatientId(jsonObject.getString("patientId"));
+        checkTable.setDoctorId(jsonObject.getString("doctorId"));
+        //计算 totalprice
+        float sum= 0f;
+        for(String i : checkItems.keySet()){
+            sum += doctorService.getCheckItemPriceById(i) * checkItems.getIntValue(i);
+        }
+        checkTable.setTotalPrice(sum);
+        int Count = doctorService.sendCheckTable(checkTable);
+
+        //把检查项目信息insert到checkTableArray
+        for(String i : checkItems.keySet()){
+            CheckTableArray checkTableArray = new CheckTableArray();
+            checkTableArray.setCheckTableArrayId(UUIDGenerator.makeUUID("CTA"));
+            checkTableArray.setCheckTableId(checkTableId);
+            checkTableArray.setCheckListId(i);
+            int a = doctorService.addCheckTableArray(checkTableArray);
+        }
         return "send";
+
+
     }
 
     /**
@@ -104,7 +141,37 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendMedicineTable")
-    public String sendMedicineTable(){
+    public String sendMedicineTable(@RequestBody String params){
+        JSONObject jsonObject = JSON.parseObject(params);
+        JSONObject medicineItems = jsonObject.getJSONObject("medicineTable");
+
+
+        MedicineTable medicineTable = new MedicineTable();
+        String medicineTableId = UUIDGenerator.makeUUID("MT");
+        medicineTable.setMedicineTableId(medicineTableId);
+        medicineTable.setPatientId(jsonObject.getString("patientId"));
+        medicineTable.setDoctorId(jsonObject.getString("doctorId"));
+        medicineTable.setPharmacistId(null);
+        medicineTable.setDispenserId(null);
+        //计算 totalprice
+        float sum= 0f;
+        for(String i : medicineItems.keySet()){
+            sum += doctorService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+        }
+        medicineTable.setTotalPrice(sum);
+        medicineTable.setMedicineTableState(0);
+        int Count = doctorService.sendMedicineTable(medicineTable);
+
+        //把处方单的药品信息insert到medicineTableArray
+        for(String i : medicineItems.keySet()){
+            sum += doctorService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+            MedicineTableArray medicineTableArray = new MedicineTableArray();
+            medicineTableArray.setMedicineTableArrayId(UUIDGenerator.makeUUID("MTA"));
+            medicineTableArray.setMedicineTableId(medicineTableId);
+            medicineTableArray.setMedicineListId(i);
+            medicineTableArray.setMedicineNum(medicineItems.getIntValue(i));
+            int a = doctorService.addMedicineTableArray(medicineTableArray);
+        }
         return "sendMedicineTable";
     }
 }

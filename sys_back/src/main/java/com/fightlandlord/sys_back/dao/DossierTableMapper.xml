@@ -10,6 +10,14 @@
   <sql id="Base_Column_List">
     dossier_table_id, patient_id, doctor_id, description
   </sql>
+
+  <select id="getDossierTableByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from dossier_table
+    where patient_id = #{patientId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

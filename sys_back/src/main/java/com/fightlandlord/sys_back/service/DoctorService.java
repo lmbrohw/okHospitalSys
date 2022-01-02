@@ -9,5 +9,12 @@ public interface DoctorService {
     Register getAPatient(String doctorId);
     List<CheckList> getCheckList();
     List<MedicineList> getMedicineList();
+    int sendDossierTable(DossierTable dossierTable);
+    List<DossierTable> getPatientRecord(String patientID);
+    Float getCheckItemPriceById(String checkListId);
     int sendCheckTable(CheckTable checkTable);
+    Float getMedicinePriceById(String medicineListId);
+    int sendMedicineTable(MedicineTable medicineTable);
+    int addCheckTableArray(CheckTableArray checkTableArray);
+    int addMedicineTableArray(MedicineTableArray medicineTableArray);
 }

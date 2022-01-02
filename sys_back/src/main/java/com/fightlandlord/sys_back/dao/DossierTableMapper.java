@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.DossierTable;
 
+import java.util.List;
+
 public interface DossierTableMapper {
     int deleteByPrimaryKey(String dossierTableId);
 
@@ -14,4 +16,6 @@ public interface DossierTableMapper {
     int updateByPrimaryKeySelective(DossierTable record);
 
     int updateByPrimaryKey(DossierTable record);
+
+    List<DossierTable> getDossierTableByPatientId(String patientId);
 }
