@@ -14,4 +14,8 @@ public interface MedicineTableMapper {
     int updateByPrimaryKeySelective(MedicineTable record);
 
     int updateByPrimaryKey(MedicineTable record);
+
+    MedicineTable getAMedicineTableForDispenser();
+
+    MedicineTable getAMedicineTableForPharmacist();
 }

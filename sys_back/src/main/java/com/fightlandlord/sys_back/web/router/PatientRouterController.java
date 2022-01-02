@@ -35,7 +35,7 @@ public class PatientRouterController {
     @PostMapping(value = "/sendSubscribe")
     public Response sendSubscribe(@RequestBody String json){
         JSONObject jsonObject= JSON.parseObject(json);
-        String patientID=jsonObject.getString("patientID");
+        String patientId=jsonObject.getString("patientId");
         String subscribeChoice=jsonObject.getString("subscribeChoice");
         String subscribeTime=jsonObject.getString("subscribeTime");
 
@@ -59,7 +59,7 @@ public class PatientRouterController {
          * 此处date还需处理
         */
 
-        Subscribe newSubscribe = new Subscribe(patientID, subscribeChoice, new Date());
+        Subscribe newSubscribe = new Subscribe(patientId, subscribeChoice, new Date());
 
         if (subscribeService.insertSubscribe(newSubscribe) != 0)
             return Response.ok().message("预约成功");
@@ -74,15 +74,15 @@ public class PatientRouterController {
      * @Return
      */
     @PostMapping(value = "/sendSubscribeState")
-    public Response sendSubscribeState(@RequestParam("subscribeID") String subscribeID,
+    public Response sendSubscribeState(@RequestParam("subscribeId") String subscribeId,
                                        @RequestParam("changeToState") int changeToState){
 
         // 查询是否存在该subscribe
-        if(subscribeID.substring(0, 2).equals("sb")) {
-            System.out.println("subscribeID:" + subscribeID);
-            Subscribe subscribe = subscribeService.queryById(subscribeID);
-            if(subscribe == null) return Response.error().message("不存在该subscribe！");
+        if(subscribeId.substring(0, 2).equals("sb")) {
+            System.out.println("subscribeId:" + subscribeId);
+            Subscribe subscribe = subscribeService.queryById(subscribeId);
             if(changeToState < 0 || changeToState > 2) return Response.error().message("subscribe不存在该状态");
+            if(subscribe == null) return Response.error().message("不存在该subscribe！");
             subscribe.setSubscribeState(changeToState);
             if(subscribeService.modifyById(subscribe) != 0)
                return Response.ok().message("修改subscribe状态成功！");

@@ -20,6 +20,23 @@
     from medicine_table
     where medicine_table_id = #{medicineTableId,jdbcType=VARCHAR}
   </select>
+
+  <!--  分发者获取一个未确认的处方单  -->
+  <select id="getAMedicineTableForDispenser" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from medicine_table
+    where medicine_table_state = 2 limit 1
+  </select>
+
+  <!--  药剂师获取一个未配药的处方单  -->
+  <select id="getAMedicineTableForPharmacist" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from medicine_table
+    where medicine_table_state = 1 limit 1
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from medicine_table
     where medicine_table_id = #{medicineTableId,jdbcType=VARCHAR}

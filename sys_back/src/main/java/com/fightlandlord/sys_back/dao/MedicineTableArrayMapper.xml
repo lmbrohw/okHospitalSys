@@ -10,6 +10,15 @@
   <sql id="Base_Column_List">
     medicine_table_array_id, medicine_table_id, medicine_list_id, medicine_num
   </sql>
+
+  <!--  根据medicinetableID获取该table下所有array  -->
+  <select id="getMedicineTableByMedicineTableId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from medicine_table_array
+    where medicine_table_id = #{medicineTableId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
