@@ -21,6 +21,8 @@ public class Register {
 
     private String withdrawMedicineTableId;
 
+    private Integer registerState;
+
     public String getRegisterId() {
         return registerId;
     }
@@ -91,5 +93,13 @@ public class Register {
 
     public void setWithdrawMedicineTableId(String withdrawMedicineTableId) {
         this.withdrawMedicineTableId = withdrawMedicineTableId;
+    }
+
+    public Integer getRegisterState() {
+        return registerState;
+    }
+
+    public void setRegisterState(Integer registerState) {
+        this.registerState = registerState;
     }
 }

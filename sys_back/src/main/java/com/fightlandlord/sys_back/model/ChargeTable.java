@@ -1,10 +1,7 @@
 package com.fightlandlord.sys_back.model;
 
-import org.springframework.stereotype.Component;
-
 import java.util.Date;
 
-@Component
 public class ChargeTable {
     private String chargeTableId;
 

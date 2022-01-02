@@ -2,12 +2,17 @@ package com.fightlandlord.sys_back.web.router;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fightlandlord.sys_back.model.Department;
 import com.fightlandlord.sys_back.model.Subscribe;
+import com.fightlandlord.sys_back.service.DepartmentService;
+import com.fightlandlord.sys_back.service.DoctorService;
 import com.fightlandlord.sys_back.service.SubscribeService;
+import com.fightlandlord.sys_back.util.Response;
 import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.annotation.Repeatable;
 import java.util.Date;
 
 
@@ -18,6 +23,12 @@ public class PatientRouterController {
     @Autowired
     SubscribeService subscribeService;
 
+    @Autowired
+    DepartmentService departmentService;
+
+    @Autowired
+    DoctorService doctorService;
+
     /**
     * @Author: hudongyue
     * @Description:
@@ -26,30 +37,35 @@ public class PatientRouterController {
     * @Return 
     */
     @PostMapping(value = "/sendSubscribe")
-    public String sendSubscribe(@RequestBody String json){
+    public Response sendSubscribe(@RequestBody String json){
         JSONObject jsonObject= JSON.parseObject(json);
         String patientID=jsonObject.getString("patientID");
         String subscribeChoice=jsonObject.getString("subscribeChoice");
         String subscribeTime=jsonObject.getString("subscribeTime");
 
-        System.out.println("pateintID:" + patientID);
-        System.out.println("subscribeChoice:" + subscribeChoice);
-        System.out.println("subscribeTime:" + subscribeTime);
+        // 判断subscribe类型
+        // 判断subscribeChoice在数据库中是否存在
+        // dp为department表示普通预约，dt为doctor表示专家预约
+        String subscribeChoiceType = subscribeChoice.substring(0, 2);
+        if(subscribeChoiceType.equals("dp")) {
+            if(departmentService.queryById(subscribeChoice) == null) {
+                return Response.error().message("不存在该科室！");
+            }
+        } else if(subscribeChoiceType.equals("dt")) {
+            if(doctorService.queryById(subscribeChoice) == null) {
+                return Response.error().message("不存在该专家！");
+            }
+        } else {
+            return Response.error().message("请选择专家或者科室！");
+        }
 
-        Subscribe newSubscribe = new Subscribe();
-        newSubscribe.setSubscribeId(UUIDGenerator.makeUUID("sb"));
-        newSubscribe.setPatientId(patientID);
-        newSubscribe.setSubscribeChoice(subscribeChoice);
-        newSubscribe.setSubscribeTime(new Date());
-        newSubscribe.setSubscribeState(0);
+        /** 此处date还需处理
+        */
+        Subscribe newSubscribe = new Subscribe(patientID, subscribeChoice, new Date());
 
-        subscribeService.insertSubscribe(newSubscribe);
-
-//        if (subscribeService.insertSubscribe(newSubscribe) != 0)
-//            System.out.println("插入数据库成功");
-//        else System.out.println("插入数据库失败");
-
-        return "sendSubscribe";
+        if (subscribeService.insertSubscribe(newSubscribe) != 0)
+            return Response.ok().message("预约成功");
+        return Response.error().message("插入数据库失败!");
     }
 
     /**

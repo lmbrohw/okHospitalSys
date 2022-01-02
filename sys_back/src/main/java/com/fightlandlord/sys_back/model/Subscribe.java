@@ -1,10 +1,9 @@
 package com.fightlandlord.sys_back.model;
 
-import org.springframework.stereotype.Component;
+import com.fightlandlord.sys_back.util.UUIDGenerator;
 
 import java.util.Date;
 
-@Component
 public class Subscribe {
     private String subscribeId;
 
@@ -15,6 +14,14 @@ public class Subscribe {
     private Date subscribeTime;
 
     private Integer subscribeState;
+
+    public Subscribe(String patientId, String subscribeChoice, Date subscribeTime) {
+        this.subscribeId = UUIDGenerator.makeUUID("sb");
+        this.patientId = patientId;
+        this.subscribeChoice = subscribeChoice;
+        this.subscribeTime = subscribeTime;
+        this.subscribeState = 0;
+    }
 
     public String getSubscribeId() {
         return subscribeId;
