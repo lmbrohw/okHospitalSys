@@ -11,6 +11,12 @@
   <sql id="Base_Column_List">
     medicine_list_id, medicine_name, medicine_num, medicine_price, medicine_description
   </sql>
+<!--  查找全部药品库存-->
+  <select id="getAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from medicine_list
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -14,4 +14,6 @@ public interface CheckTableMapper {
     int updateByPrimaryKeySelective(CheckTable record);
 
     int updateByPrimaryKey(CheckTable record);
+
+
 }

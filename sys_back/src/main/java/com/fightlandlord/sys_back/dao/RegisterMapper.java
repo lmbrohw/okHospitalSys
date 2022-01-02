@@ -14,4 +14,6 @@ public interface RegisterMapper {
     int updateByPrimaryKeySelective(Register record);
 
     int updateByPrimaryKey(Register record);
+
+    Register getAPatient(String doctorId);
 }

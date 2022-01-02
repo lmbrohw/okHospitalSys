@@ -17,6 +17,14 @@
     register_id, patient_id, register_choice, register_time, is_subscribe, dossier_table_id, 
     check_table_id, medicine_table_id, withdraw_medicine_table_id, register_state
   </sql>
+  <!--  医生叫号-->
+  <select id="getAPatient" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from register
+    where register_choice = #{doctorId} and register_state = 1 order by register_time asc limit 1
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

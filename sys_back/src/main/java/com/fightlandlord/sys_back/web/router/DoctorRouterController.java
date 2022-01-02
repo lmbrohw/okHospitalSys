@@ -1,15 +1,24 @@
 package com.fightlandlord.sys_back.web.router;
 
+import com.fightlandlord.sys_back.model.CheckList;
+import com.fightlandlord.sys_back.model.MedicineList;
+import com.fightlandlord.sys_back.model.Register;
+import com.fightlandlord.sys_back.service.DoctorService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping(path = "/doctor")
 public class DoctorRouterController {
 
 
+    @Autowired
+    DoctorService doctorService;
     /**
      * @Author: hudongyue
      * @Description:
@@ -18,8 +27,9 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getAPatient")
-    public String getAPatient(){
-        return "getAPatient";
+    public Register getAPatient(String doctorId){
+
+        return doctorService.getAPatient(doctorId);
     }
 
     /**
@@ -42,8 +52,9 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getMedcineList")
-    public String getMedcineList(){
-        return "getMedcineList";
+    public List<MedicineList> getMedcineList(){
+
+        return doctorService.getMedicineList();
     }
 
     /**
@@ -54,8 +65,9 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getCheckList")
-    public String getCheckList(){
-        return "getCheckList";
+    public List<CheckList> getCheckList(){
+
+        return doctorService.getCheckList();
     }
 
     /**
@@ -67,6 +79,7 @@ public class DoctorRouterController {
      */
     @PostMapping(value = "/sendDossierTable")
     public String sendDossierTable(){
+
         return "sendDossierTable";
     }
 
@@ -79,7 +92,8 @@ public class DoctorRouterController {
      */
     @PostMapping(value = "/sendCheckTable")
     public String sendCheckTable(){
-        return "sendCheckTable";
+
+        return "send";
     }
 
     /**

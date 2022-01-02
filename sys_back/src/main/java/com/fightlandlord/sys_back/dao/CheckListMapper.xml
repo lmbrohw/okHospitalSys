@@ -10,6 +10,12 @@
   <sql id="Base_Column_List">
     check_list_id, check_name, check_price, check_description
   </sql>
+  <!--  查找全部检查项目库存-->
+  <select id="getAll" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from check_list
+  </select>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
