@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.Department;
 
+import java.util.List;
+
 public interface DepartmentMapper {
     int deleteByPrimaryKey(String departmentId);
 
@@ -14,4 +16,6 @@ public interface DepartmentMapper {
     int updateByPrimaryKeySelective(Department record);
 
     int updateByPrimaryKey(Department record);
+
+    List<Department> getDepartmentList();
 }

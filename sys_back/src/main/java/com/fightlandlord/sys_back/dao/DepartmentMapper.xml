@@ -8,6 +8,14 @@
   <sql id="Base_Column_List">
     department_id, department_name
   </sql>
+
+  <!--查询科室列表  -->
+  <select id="getDepartmentList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from department
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

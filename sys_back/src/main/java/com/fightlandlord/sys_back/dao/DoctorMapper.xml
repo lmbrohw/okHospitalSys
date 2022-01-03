@@ -13,6 +13,21 @@
   <sql id="Base_Column_List">
     doctor_id, department_id, gender, age, is_expert, name, password
   </sql>
+
+  <!--查询所有医生  -->
+  <select id="getAll" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from doctor
+  </select>
+  <!-- 查询所有专家 -->
+  <select id="getExpertList" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from doctor
+    where is_expert = 1
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

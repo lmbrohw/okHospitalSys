@@ -6,6 +6,8 @@ import java.util.List;
 
 public interface DoctorService {
     Doctor queryById(String departmentID);
+    List<Doctor> getDoctorList();
+    List<Doctor> getExpertList();
 
 
 

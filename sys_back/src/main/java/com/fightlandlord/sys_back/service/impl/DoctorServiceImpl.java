@@ -7,6 +7,8 @@ import com.fightlandlord.sys_back.service.MedicineListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 
 @Service
 public class DoctorServiceImpl implements DoctorService {
@@ -19,25 +21,15 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorMapper.selectByPrimaryKey(doctorID);
     }
 
+    @Override
+    public List<Doctor> getDoctorList() {
+        return doctorMapper.getAll();
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    @Override
+    public List<Doctor> getExpertList() {
+        return doctorMapper.getExpertList();
+    }
 
 
 }

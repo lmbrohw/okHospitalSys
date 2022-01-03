@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.Doctor;
 
+import java.util.List;
+
 public interface DoctorMapper {
     int deleteByPrimaryKey(String doctorId);
 
@@ -14,4 +16,8 @@ public interface DoctorMapper {
     int updateByPrimaryKeySelective(Doctor record);
 
     int updateByPrimaryKey(Doctor record);
+
+    List<Doctor> getAll();
+
+    List<Doctor> getExpertList();
 }
