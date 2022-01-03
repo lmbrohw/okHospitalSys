@@ -64,8 +64,7 @@ public class PharmacistRouterController {
     */
     @PostMapping(value = "/sendMedicineTableState")
     public Response sendMedicineTableState(@RequestParam("tableId") String medicineTableId,
-                                           @RequestParam("pharmacistId") String pharmacistId,
-                                           @RequestParam("state") int changeToState){
-        return medicineTableService.modifyMedicineTableState(medicineTableId, pharmacistId, changeToState);
+                                           @RequestParam("pharmacistId") String pharmacistId){
+        return medicineTableService.modifyMedicineTableState(medicineTableId, pharmacistId, 2);
     }
 }

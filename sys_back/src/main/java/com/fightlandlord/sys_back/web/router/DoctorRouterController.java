@@ -119,6 +119,7 @@ public class DoctorRouterController {
      */
     @PostMapping(value = "/sendDossierTable")
     public Response sendDossierTable(String doctorId, String patientId, String description){
+        /** modify withdrawTableId in register **/
 
         DossierTable dossierTable = new DossierTable();
         dossierTable.setDossierTableId(UUIDGenerator.makeUUID("dt"));
@@ -141,6 +142,9 @@ public class DoctorRouterController {
      */
     @PostMapping(value = "/sendCheckTable")
     public Response sendCheckTable(@RequestBody String params){
+
+        /** modify withdrawTableId in register **/
+
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject checkItems = jsonObject.getJSONObject("checkTable");
         CheckTable checkTable = new CheckTable();
@@ -189,6 +193,9 @@ public class DoctorRouterController {
      */
     @PostMapping(value = "/sendMedicineTable")
     public Response sendMedicineTable(@RequestBody String params){
+
+        /** modify withdrawTableId in register **/
+
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject medicineItems = jsonObject.getJSONObject("medicineTable");
 
@@ -230,5 +237,18 @@ public class DoctorRouterController {
             }
         }
         return Response.ok().message("上传成功");
+    }
+    /**
+    * @Author: hudongyue
+    * @Description: 
+    * @DateTime: 2022/1/3 20:39
+    * @Params: 
+    * @Return 
+    */
+    @PostMapping(value = "/sendRegisterState")
+    public Response sendRegisterState(@RequestParam("tableId") String registerId){
+        if(registerService.modifyRegisterState(registerId, 3) == 0)
+            return Response.error().message("改变register状态失败！");
+        return Response.ok().message("改变register状态成功！");
     }
 }

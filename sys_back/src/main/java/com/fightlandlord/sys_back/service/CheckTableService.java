@@ -12,4 +12,6 @@ public interface CheckTableService {
     Map<String,Object> getCheckTableJSON(CheckTable checkTable);
 
     CheckTable queryById(String checkTableId);
+
+    int modifyCheckTableState(String medicineTableId, int state);
 }

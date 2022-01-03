@@ -77,4 +77,12 @@ public class CheckTableServiceImpl implements CheckTableService {
         return checkTableMapper.selectByPrimaryKey(checkTableId);
     }
 
+    @Override
+    public int modifyCheckTableState(String checkTableId, int state) {
+        CheckTable checkTable = queryById(checkTableId);
+        if(checkTable == null) return 0;
+        checkTable.setCheckTableState(state);
+        return checkTableMapper.updateByPrimaryKeySelective(checkTable);
+    }
+
 }

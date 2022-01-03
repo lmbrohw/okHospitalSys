@@ -128,6 +128,9 @@ public class DispenserRouterController {
         chargeTable.setChargePrice(totalPrice);
         chargeTable.setChargeState(0);
 
+        /** change medicineTable state **/
+        /** modify withdrawTableId in register **/
+
         if(chargeTableService.insertChargeTable(chargeTable) == 0)
             return Response.error().message("退药单对应账单存入数据库出错！");
 

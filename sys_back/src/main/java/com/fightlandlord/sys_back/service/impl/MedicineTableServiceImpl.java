@@ -6,6 +6,7 @@ import com.fightlandlord.sys_back.dao.PatientMapper;
 import com.fightlandlord.sys_back.model.MedicineList;
 import com.fightlandlord.sys_back.model.MedicineTable;
 import com.fightlandlord.sys_back.model.MedicineTableArray;
+import com.fightlandlord.sys_back.model.Register;
 import com.fightlandlord.sys_back.service.MedicineListService;
 import com.fightlandlord.sys_back.service.MedicineTableArrayService;
 import com.fightlandlord.sys_back.service.MedicineTableService;
@@ -99,7 +100,7 @@ public class MedicineTableServiceImpl implements MedicineTableService {
             if(role == 0) { // pharmacist
                 if(medicineTable.getMedicineTableState() != 1 || changeToState != 2) return Response.ok().message("配药师没有改变此状态的权限");
             }else if(role == 1) { // dispenser
-                if(medicineTable.getMedicineTableState() != 2 || changeToState != 3) return Response.ok().message("药剂师没有改变此状态的权限");
+                // if(medicineTable.getMedicineTableState() != 2 || changeToState != 3) return Response.ok().message("药剂师没有改变此状态的权限");
             }
 
             if(medicineTable == null) return Response.error().message("不存在该medicineTable！");
@@ -117,6 +118,14 @@ public class MedicineTableServiceImpl implements MedicineTableService {
             return Response.error().message("修改medicineTable状态失败！");
         }
         return Response.error().message("不存在该medicineTable！");
+    }
+
+    @Override
+    public int tmpModifyMedicineTableState(String medicineTableId, int state) {
+        MedicineTable medicineTable = queryById(medicineTableId);
+        if(medicineTable == null) return 0;
+        medicineTable.setMedicineTableState(state);
+        return medicineTableMapper.updateByPrimaryKeySelective(medicineTable);
     }
 
     @Override

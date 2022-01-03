@@ -66,27 +66,27 @@ public class ChargerRouterController {
         return Response.ok().message("获取该用户最近预约记录成功！").data("subscribe", subscribeList.get(0));
     }
     
-    /**
-    * @Author: hudongyue
-    * @Description: 收费者更改收费单状态
-    * @DateTime: 2021/12/26 21:37
-    * @Params: tableId state
-    * @Return 成功与否
-    */
-    @PostMapping(value = "/sendChargeTable")
-    public Response sendChargeTable(@RequestParam("chargeItemId") String chargeItemId,
-                                         @RequestParam("patientId") String patientId,
-                                         @RequestParam("chargerId") String chargerId,
-                                         @RequestParam("chargePrice") float chargePrice){
-        // ************************************* id 判断 ***********************
-
-        ChargeTable chargeTable = new ChargeTable(chargeItemId, patientId, chargerId, new Date(),chargePrice);
-
-        if(chargeTableService.insertChargeTable(chargeTable) == 0)
-            return Response.error().message("插入chargeTable失败！");
-
-        return Response.ok().message("插入chargeTable成功！");
-    }
+//    /**
+//    * @Author: hudongyue
+//    * @Description: 收费者更改收费单状态
+//    * @DateTime: 2021/12/26 21:37
+//    * @Params: tableId state
+//    * @Return 成功与否
+//    */
+//    @PostMapping(value = "/sendChargeTable")
+//    public Response sendChargeTable(@RequestParam("chargeItemId") String chargeItemId,
+//                                         @RequestParam("patientId") String patientId,
+//                                         @RequestParam("chargerId") String chargerId,
+//                                         @RequestParam("chargePrice") float chargePrice){
+//        // ************************************* id 判断 ***********************
+//
+//        ChargeTable chargeTable = new ChargeTable(chargeItemId, patientId, chargerId, new Date(),chargePrice);
+//
+//        if(chargeTableService.insertChargeTable(chargeTable) == 0)
+//            return Response.error().message("插入chargeTable失败！");
+//
+//        return Response.ok().message("插入chargeTable成功！");
+//    }
 
     /**
      * @Author: hudongyue
@@ -97,9 +97,9 @@ public class ChargerRouterController {
      */
     @PostMapping(value = "/sendChargeTableState")
     public Response sendChargeTableState(@RequestParam("tableId") String chargeTableId,
-                                         @RequestParam("state") int changeToState){
+                                         @RequestParam("chargerId") String chargerId){
 
-        return chargeTableService.modifyChargeTableState(chargeTableId, changeToState);
+        return chargeTableService.modifyChargeTableState(chargeTableId, chargerId, 1);
     }
 
 
@@ -116,10 +116,23 @@ public class ChargerRouterController {
                                  @RequestParam("registerTime") String registerTime,
                                  @RequestParam("isSubscribe") int isSubscribe){
         /***** 时间处理 查询判断******/
+        if(patientService.queryById(patientId) == null) return Response.error().message("不存在该病人！");
 
         Register register = new Register(patientId, registerChoice, new Date(), isSubscribe);
 
-        if(registerService.insertRegister(register) == 0)
+        // chargeItemId, patientId, chargerId, chargeCreateTime, chargePrice
+        ChargeTable chargeTable = new ChargeTable();
+        chargeTable.setChargeTableId(register.getRegisterId());
+        chargeTable.setPatientId(patientId);
+        chargeTable.setChargeCreateTime(new Date());
+        if(register.getRegisterChoice().substring(0, 2).equals("dt"))
+            chargeTable.setChargePrice(50); // 专家挂号50
+        else chargeTable.setChargePrice(10); // 普通挂号10
+        chargeTable.setChargeState(0);
+
+        /***** subscribe state ******/
+
+        if(registerService.insertRegister(register) == 0 || chargeTableService.insertChargeTable(chargeTable) == 0)
             return Response.error().message("插入register失败！");
         return Response.ok().message("插入register成功！");
     }

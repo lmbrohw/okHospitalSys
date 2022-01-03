@@ -14,8 +14,11 @@ public interface MedicineTableService {
 
     Response modifyMedicineTableState(String medicineTableId, String roleId, int changeToState);
 
+    int tmpModifyMedicineTableState(String medicineTableId, int state);
+
     int modifyById(MedicineTable medicineTable);
 
     int sendMedicineTable(MedicineTable medicineTable);
+
 
 }

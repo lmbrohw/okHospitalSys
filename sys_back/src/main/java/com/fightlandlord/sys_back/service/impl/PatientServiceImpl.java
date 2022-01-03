@@ -3,9 +3,11 @@ package com.fightlandlord.sys_back.service.impl;
 import com.fightlandlord.sys_back.dao.DossierTableMapper;
 import com.fightlandlord.sys_back.dao.PatientMapper;
 import com.fightlandlord.sys_back.dao.RegisterMapper;
+import com.fightlandlord.sys_back.model.Doctor;
 import com.fightlandlord.sys_back.model.DossierTable;
 import com.fightlandlord.sys_back.model.Patient;
 import com.fightlandlord.sys_back.model.Register;
+import com.fightlandlord.sys_back.service.DoctorService;
 import com.fightlandlord.sys_back.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +24,9 @@ public class PatientServiceImpl implements PatientService {
     @Autowired
     RegisterMapper registerMapper;
 
+    @Autowired
+    DoctorService doctorService;
+
     @Override
     public Patient queryById(String patientId) {
         if(!patientId.substring(0, 2).equals("pt")) return null;
@@ -35,16 +40,23 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Register getAPatient(String doctorId) {
+        Doctor doctor = doctorService.queryById(doctorId);
+        if(doctor == null) return null;
+        String searchId;
+        if(doctor.getIsExpert() == 1) {
+            searchId = doctorId;
+        } else {
+            searchId = doctor.getDepartmentId();
+        }
 
-        Register register = registerMapper.getAPatient(doctorId);
+        Register register = registerMapper.getAPatient(searchId);
         if (register == null)
             return null;
-        else{
-            Register updatingRegister = new Register();
-            updatingRegister.setRegisterId(register.getRegisterId());
-            updatingRegister.setRegisterState(1);
-            int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
-            return register;
-        }
+        Register updatingRegister = new Register();
+        updatingRegister.setRegisterId(register.getRegisterId());
+        updatingRegister.setRegisterState(2);
+        int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
+        return register;
+
     }
 }

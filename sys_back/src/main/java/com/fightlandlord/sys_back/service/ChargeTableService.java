@@ -9,5 +9,5 @@ public interface ChargeTableService {
 
     int insertChargeTable(ChargeTable chargeTable);
 
-    Response modifyChargeTableState(String chargeTableId, int changeToState);
+    Response modifyChargeTableState(String chargeTableId, String chargerId, int changeToState);
 }

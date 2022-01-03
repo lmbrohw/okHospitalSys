@@ -21,4 +21,18 @@ public class RegisterServiceImpl implements RegisterService {
     public int insertRegister(Register register) {
         return registerMapper.insert(register);
     }
+
+    @Override
+    public Register queryById(String registerId) {
+        if(!registerId.substring(0, 2).equals("rg")) return null;
+        return registerMapper.selectByPrimaryKey(registerId);
+    }
+
+    @Override
+    public int modifyRegisterState(String registerId, int state) {
+        Register register = queryById(registerId);
+        if(register == null) return 0;
+        register.setRegisterState(state);
+        return registerMapper.updateByPrimaryKeySelective(register);
+    }
 }
