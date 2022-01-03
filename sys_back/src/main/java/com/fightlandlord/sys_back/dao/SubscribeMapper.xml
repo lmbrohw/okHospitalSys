@@ -11,6 +11,16 @@
   <sql id="Base_Column_List">
     subscribe_id, patient_id, subscribe_choice, subscribe_time, subscribe_state
   </sql>
+
+
+<!--  根据patientId来查询subscribe -->
+  <select id="getSubscribeListByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from subscribe
+    where patient_id = #{patientId,jdbcType=VARCHAR} order by subscribe_time desc
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

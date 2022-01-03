@@ -1,5 +1,7 @@
 package com.fightlandlord.sys_back.model;
 
+import com.fightlandlord.sys_back.util.UUIDGenerator;
+
 public class WithdrawMedicineTable {
     private String withdrawMedicineTableId;
 
@@ -19,6 +21,17 @@ public class WithdrawMedicineTable {
 
     public void setWithdrawMedicineTableId(String withdrawMedicineTableId) {
         this.withdrawMedicineTableId = withdrawMedicineTableId;
+    }
+
+    public WithdrawMedicineTable(){}
+
+    public WithdrawMedicineTable(String medicineTableId, String patientId, String doctorId, String dispenserId, float totalPrice) {
+        this.withdrawMedicineTableId = UUIDGenerator.makeUUID("wm");
+        this.medicineTableId = medicineTableId;
+        this.patientId = patientId;
+        this.doctorId = doctorId;
+        this.dispenserId = dispenserId;
+        this.totalPrice = totalPrice;
     }
 
     public String getMedicineTableId() {

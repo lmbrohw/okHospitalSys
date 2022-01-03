@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.Subscribe;
 
+import java.util.List;
+
 public interface SubscribeMapper {
     int deleteByPrimaryKey(String subscribeId);
 
@@ -14,4 +16,6 @@ public interface SubscribeMapper {
     int updateByPrimaryKeySelective(Subscribe record);
 
     int updateByPrimaryKey(Subscribe record);
+
+    List<Subscribe> getSubscribeListByPatientId(String patientId);
 }

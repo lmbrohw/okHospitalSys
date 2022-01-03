@@ -6,6 +6,8 @@ import com.fightlandlord.sys_back.service.SubscribeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SubscribeServiceImpl implements SubscribeService {
 
@@ -13,8 +15,13 @@ public class SubscribeServiceImpl implements SubscribeService {
     SubscribeMapper subscribeMapper;
 
     @Override
-    public Subscribe queryById(String subscribeID) {
-        return subscribeMapper.selectByPrimaryKey(subscribeID);
+    public Subscribe queryById(String subscribeId) {
+        return subscribeMapper.selectByPrimaryKey(subscribeId);
+    }
+
+    @Override
+    public List<Subscribe> getSubscribeListByPatientId(String patientId) {
+        return subscribeMapper.getSubscribeListByPatientId(patientId);
     }
 
     @Override

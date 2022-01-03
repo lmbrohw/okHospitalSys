@@ -5,13 +5,12 @@
     <id column="charge_table_id" jdbcType="VARCHAR" property="chargeTableId" />
     <result column="patient_id" jdbcType="VARCHAR" property="patientId" />
     <result column="charger_id" jdbcType="VARCHAR" property="chargerId" />
-    <result column="charge_item_id" jdbcType="VARCHAR" property="chargeItemId" />
     <result column="charge_create_time" jdbcType="TIMESTAMP" property="chargeCreateTime" />
     <result column="charge_state" jdbcType="INTEGER" property="chargeState" />
-    <result column="charge_price" jdbcType="INTEGER" property="chargePrice" />
+    <result column="charge_price" jdbcType="REAL" property="chargePrice" />
   </resultMap>
   <sql id="Base_Column_List">
-    charge_table_id, patient_id, charger_id, charge_item_id, charge_create_time, charge_state, 
+    charge_table_id, patient_id, charger_id, charge_create_time, charge_state,
     charge_price
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -26,10 +25,10 @@
   </delete>
   <insert id="insert" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
     insert into charge_table (charge_table_id, patient_id, charger_id, 
-      charge_item_id, charge_create_time, charge_state, 
+      charge_create_time, charge_state,
       charge_price)
     values (#{chargeTableId,jdbcType=VARCHAR}, #{patientId,jdbcType=VARCHAR}, #{chargerId,jdbcType=VARCHAR}, 
-      #{chargeItemId,jdbcType=VARCHAR}, #{chargeCreateTime,jdbcType=TIMESTAMP}, #{chargeState,jdbcType=INTEGER}, 
+      #{chargeCreateTime,jdbcType=TIMESTAMP}, #{chargeState,jdbcType=INTEGER},
       #{chargePrice,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.fightlandlord.sys_back.model.ChargeTable">
@@ -43,9 +42,6 @@
       </if>
       <if test="chargerId != null">
         charger_id,
-      </if>
-      <if test="chargeItemId != null">
-        charge_item_id,
       </if>
       <if test="chargeCreateTime != null">
         charge_create_time,
@@ -90,9 +86,6 @@
       <if test="chargerId != null">
         charger_id = #{chargerId,jdbcType=VARCHAR},
       </if>
-      <if test="chargeItemId != null">
-        charge_item_id = #{chargeItemId,jdbcType=VARCHAR},
-      </if>
       <if test="chargeCreateTime != null">
         charge_create_time = #{chargeCreateTime,jdbcType=TIMESTAMP},
       </if>
@@ -100,7 +93,7 @@
         charge_state = #{chargeState,jdbcType=INTEGER},
       </if>
       <if test="chargePrice != null">
-        charge_price = #{chargePrice,jdbcType=INTEGER},
+        charge_price = #{chargePrice,jdbcType=REAL},
       </if>
     </set>
     where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
@@ -109,10 +102,9 @@
     update charge_table
     set patient_id = #{patientId,jdbcType=VARCHAR},
       charger_id = #{chargerId,jdbcType=VARCHAR},
-      charge_item_id = #{chargeItemId,jdbcType=VARCHAR},
       charge_create_time = #{chargeCreateTime,jdbcType=TIMESTAMP},
       charge_state = #{chargeState,jdbcType=INTEGER},
-      charge_price = #{chargePrice,jdbcType=INTEGER}
+      charge_price = #{chargePrice,jdbcType=REAL}
     where charge_table_id = #{chargeTableId,jdbcType=VARCHAR}
   </update>
 </mapper>

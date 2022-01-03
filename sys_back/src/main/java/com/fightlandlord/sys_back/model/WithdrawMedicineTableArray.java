@@ -1,5 +1,9 @@
 package com.fightlandlord.sys_back.model;
 
+import com.fightlandlord.sys_back.util.UUIDGenerator;
+
+import java.security.PublicKey;
+
 public class WithdrawMedicineTableArray {
     private String withdrawMedicineTableArrayId;
 
@@ -11,6 +15,16 @@ public class WithdrawMedicineTableArray {
 
     public String getWithdrawMedicineTableArrayId() {
         return withdrawMedicineTableArrayId;
+    }
+
+
+    public WithdrawMedicineTableArray() {}
+
+    public WithdrawMedicineTableArray(String withdrawMedicineTableId, String withdrawMedicineListId, int withdrawMedicineNum) {
+        this.withdrawMedicineTableArrayId = UUIDGenerator.makeUUID("wma");
+        this.withdrawMedicineTableId = withdrawMedicineTableId;
+        this.withdrawMedicineListId = withdrawMedicineListId;
+        this.withdrawMedicineNum = withdrawMedicineNum;
     }
 
     public void setWithdrawMedicineTableArrayId(String withdrawMedicineTableArrayId) {

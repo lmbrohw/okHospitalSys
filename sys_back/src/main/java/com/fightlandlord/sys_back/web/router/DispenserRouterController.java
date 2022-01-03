@@ -1,10 +1,11 @@
 package com.fightlandlord.sys_back.web.router;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fightlandlord.sys_back.model.*;
-import com.fightlandlord.sys_back.service.MedicineListService;
-import com.fightlandlord.sys_back.service.MedicineTableArrayService;
-import com.fightlandlord.sys_back.service.MedicineTableService;
+import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
+import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +22,24 @@ public class DispenserRouterController {
     MedicineTableService medicineTableService;
 
     @Autowired
-    MedicineTableArrayService medicineTableArrayService;
+    MedicineListService medicineListService;
 
     @Autowired
-    MedicineListService medicineListService;
+    WithdrawMedicineTableService withdrawMedicineTableService;
+
+    @Autowired
+    WithdrawMedicineTableArrayService withdrawMedicineTableArrayService;
+
+    @Autowired
+    PatientService patientService;
+
+    @Autowired
+    DoctorService doctorService;
+
+    @Autowired
+    DispenserService dispenserService;
+
+
 
     /**
     * @Author: hudongyue
@@ -34,10 +49,13 @@ public class DispenserRouterController {
     * @Return
     */
     @GetMapping(value = "/getAMedicineTableWithID")
-    public String getAMedicineTableWithId(@RequestParam("tableId") String tableId){
-//        System.out.println("Id is " + tableId);
-//        MedicineTable medicineTable = medicineTableService.queryById(tableId);
-        return "getAMedicineTableWithId";
+    public Response getAMedicineTableWithId(@RequestParam("tableId") String medicineTableId){
+        if(!medicineTableId.substring(0, 2).equals("mt"))
+            return Response.error().message("不存在该medicineTable！");
+        MedicineTable medicineTable = medicineTableService.queryById(medicineTableId);
+        Map<String, Object> jsonMap = medicineTableService.getMedicineTableJSON(medicineTable);
+        if(jsonMap == null || jsonMap.size() == 0) return Response.error().message("不存在该medicineTable！");
+        return Response.ok().message("成功获取medicineTable!").data(jsonMap);
     }
 
     /**
@@ -63,8 +81,49 @@ public class DispenserRouterController {
     * @Return 
     */
     @PostMapping(value = "/sendWithdrawMedicineTable")
-    public Response sendWithdrawMedicineTable(){
-        return null;
+    public Response sendWithdrawMedicineTable(@RequestBody String json){
+        JSONObject jsonObject= JSON.parseObject(json);
+        String medicineTableId=jsonObject.getString("medicineTableId");
+        String patientId=jsonObject.getString("patientId");
+        String doctorId=jsonObject.getString("doctorId");
+        String dispenserId=jsonObject.getString("dispenserId");
+        JSONObject withdrawMedicineTableMap=jsonObject.getJSONObject("withdrawMedicineTableMap");
+
+        // 计算总价
+        float totalPrice = 0;
+        for(String medicineListId : withdrawMedicineTableMap.keySet()){
+            MedicineList medicineList = medicineListService.queryById(medicineListId);
+            if(medicineList == null) return Response.error().message("退药单中的药库中不存在！");
+            totalPrice += medicineList.getMedicinePrice() * withdrawMedicineTableMap.getIntValue(medicineListId);
+        }
+
+        /**
+        * @Author: 判定换成impl中的接口
+        */
+        if(medicineTableService.queryById(medicineTableId) == null) return Response.error().message("该medicineTable不存在！");
+        if(patientService.queryById(patientId) == null) return Response.error().message("该patient不存在！");
+        if(doctorService.queryById(doctorId) == null) return Response.error().message("该doctor不存在！");
+        if(dispenserService.queryById(dispenserId) == null) return Response.error().message("该dispenser不存在！");
+
+        WithdrawMedicineTable withdrawMedicineTable = new WithdrawMedicineTable(medicineTableId, patientId, doctorId, dispenserId, totalPrice);
+
+        // 将退药单存入数据库
+        if(withdrawMedicineTableService.sendWithdrawMedicineTable(withdrawMedicineTable) == 0)
+            return Response.error().message("退药单存入数据库出错！");
+
+        //把检查项目信息insert到checkTableArray
+        for(String medicineListId : withdrawMedicineTableMap.keySet()){
+            WithdrawMedicineTableArray withdrawMedicineTableArray = new WithdrawMedicineTableArray(withdrawMedicineTable.getWithdrawMedicineTableId(),
+                    medicineListId, withdrawMedicineTableMap.getIntValue(medicineListId));
+            if(withdrawMedicineTableArrayService.sendWithdrawMedicineTableArray(withdrawMedicineTableArray) == 0) {
+                return Response.error().message("退药单存入数据库出错！");
+            }
+        }
+
+        // 生成对应账单
+
+
+        return Response.ok().message("退药单生成成功！").data("withdrawMedicineTableId", withdrawMedicineTable.getWithdrawMedicineTableId());
     }
 
     /**

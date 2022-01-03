@@ -9,13 +9,22 @@ public class ChargeTable {
 
     private String chargerId;
 
-    private String chargeItemId;
-
     private Date chargeCreateTime;
 
     private Integer chargeState;
 
-    private Integer chargePrice;
+    private float chargePrice;
+
+    public ChargeTable() {}
+
+    public ChargeTable(String chargeItemId, String patientId, String chargerId, Date chargeCreateTime, float chargePrice) {
+        this.chargeTableId = chargeItemId;
+        this.patientId = patientId;
+        this.chargerId = chargerId;
+        this.chargeCreateTime = chargeCreateTime;
+        this.chargePrice = chargePrice;
+        this.chargeState = 0;
+    }
 
     public String getChargeTableId() {
         return chargeTableId;
@@ -41,14 +50,6 @@ public class ChargeTable {
         this.chargerId = chargerId;
     }
 
-    public String getChargeItemId() {
-        return chargeItemId;
-    }
-
-    public void setChargeItemId(String chargeItemId) {
-        this.chargeItemId = chargeItemId;
-    }
-
     public Date getChargeCreateTime() {
         return chargeCreateTime;
     }
@@ -65,11 +66,11 @@ public class ChargeTable {
         this.chargeState = chargeState;
     }
 
-    public Integer getChargePrice() {
+    public float getChargePrice() {
         return chargePrice;
     }
 
-    public void setChargePrice(Integer chargePrice) {
+    public void setChargePrice(float chargePrice) {
         this.chargePrice = chargePrice;
     }
 }
