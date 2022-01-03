@@ -25,4 +25,19 @@ public class ChargeTableServiceImpl implements ChargeTableService {
     public int insertChargeTable(ChargeTable chargeTable) {
         return chargeTableMapper.insert(chargeTable);
     }
+
+    @Override
+    public Response modifyChargeTableState(String chargeTableId, int changeToState) {
+        ChargeTable chargeTable = queryById(chargeTableId);
+        if(chargeTable == null) return Response.error().message("不存在该chargeTable！");
+
+        if(chargeTable.getChargeState() != 0 || changeToState != 1)
+            return Response.error().message("无权限改变该chargeTable！");
+
+        chargeTable.setChargeState(changeToState);
+
+        if(chargeTableMapper.updateByPrimaryKeySelective(chargeTable) == 0)
+            return Response.error().message("chanrgeTable插入数据库失败！");
+        return Response.ok().message("改变chargeTable状态成功！");
+    }
 }

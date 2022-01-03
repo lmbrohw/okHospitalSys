@@ -23,8 +23,9 @@ public class PatientServiceImpl implements PatientService {
     RegisterMapper registerMapper;
 
     @Override
-    public Patient queryById(String id) {
-        return patientMapper.selectByPrimaryKey(id);
+    public Patient queryById(String patientId) {
+        if(!patientId.substring(0, 2).equals("pt")) return null;
+        return patientMapper.selectByPrimaryKey(patientId);
     }
 
     @Override

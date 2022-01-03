@@ -8,4 +8,6 @@ public interface ChargeTableService {
     ChargeTable queryById(String tableId);
 
     int insertChargeTable(ChargeTable chargeTable);
+
+    Response modifyChargeTableState(String chargeTableId, int changeToState);
 }

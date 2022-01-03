@@ -15,6 +15,8 @@ public class ChargerServiceImpl implements ChargerService {
 
     @Override
     public Charger queryById(String tableId) {
+        if(!tableId.substring(0, 2).equals("cg")) return null;
         return chargerMapper.selectByPrimaryKey(tableId);
     }
+
 }

@@ -16,4 +16,9 @@ public class RegisterServiceImpl implements RegisterService {
     public List<Register> getRegisterByPatientId(String patientId) {
         return registerMapper.getRegistRecordByPatientId(patientId);
     }
+
+    @Override
+    public int insertRegister(Register register) {
+        return registerMapper.insert(register);
+    }
 }
