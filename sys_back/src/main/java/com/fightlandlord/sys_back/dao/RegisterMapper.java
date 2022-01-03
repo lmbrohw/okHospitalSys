@@ -3,6 +3,7 @@ package com.fightlandlord.sys_back.dao;
 import com.fightlandlord.sys_back.model.Register;
 
 import java.sql.Time;
+import java.util.List;
 
 public interface RegisterMapper {
     int deleteByPrimaryKey(String registerId);
@@ -18,4 +19,6 @@ public interface RegisterMapper {
     int updateByPrimaryKey(Register record);
 
     Register getAPatient(String doctorId);
+
+    List<Register> getRegistRecordByPatientId(String patientID);
 }

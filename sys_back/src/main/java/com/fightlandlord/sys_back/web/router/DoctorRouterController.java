@@ -6,10 +6,11 @@ import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
 import com.fightlandlord.sys_back.util.UUIDGenerator;
+import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/doctor")
@@ -33,6 +34,8 @@ public class DoctorRouterController {
     CheckTableArrayService checkTableArrayService;
     @Autowired
     MedicineTableArrayService medicineTableArrayService;
+    @Autowired
+    RegisterService registerService;
     /**
      * @Author: hudongyue
      * @Description:
@@ -58,9 +61,26 @@ public class DoctorRouterController {
     * @Return
     */
     @GetMapping(value = "/getPatientRecord")
-    public List<DossierTable> getPatientRecord(String patientId){
+    public Response getPatientRecord(String patientId){
+        List<Register> registeRecords = registerService.getRegisterByPatientId(patientId);
+        List<Map<String, Object>> allRecords = new LinkedList<>();
 
-        return patientService.getPatientRecord(patientId);
+        for (Register registeRecord :registeRecords){
+            Map<String,Object> oneTreatmentInfo = new HashMap<>();
+            Date time = registeRecord.getRegisterTime();
+            String doctorId = registeRecord.getRegisterChoice();
+            DossierTable dossierTableRecord = dossierTableService.getDossierTableRecordById(registeRecord.getDossierTableId());
+            Map<String, Object> medicineTableRecord = medicineTableService.getMedicineTableJSON(medicineTableService.queryById(registeRecord.getMedicineTableId()));
+            Map<String, Object> checkTableRecord = checkTableService.getCheckTableJSON((checkTableService.queryById(registeRecord.getCheckTableId())));
+            oneTreatmentInfo.put("time", time);
+            oneTreatmentInfo.put("doctorId", doctorId);
+            oneTreatmentInfo.put("dossierTable", dossierTableRecord);
+            oneTreatmentInfo.put("medicineTable", medicineTableRecord);
+            oneTreatmentInfo.put("checkTable", checkTableRecord);
+            allRecords.add(oneTreatmentInfo);
+        }
+
+        return Response.ok().message("查询成功").data("treatmentInfoList", allRecords);
     }
 
     /**

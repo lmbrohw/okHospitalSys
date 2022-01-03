@@ -28,4 +28,9 @@ public class DossierTableServiceImpl implements DossierTableService {
             return dossierTableMapper.insertSelective(dossierTable);
     }
 
+    @Override
+    public DossierTable getDossierTableRecordById(String dossierTableId) {
+        return dossierTableMapper.selectByPrimaryKey(dossierTableId);
+    }
+
 }

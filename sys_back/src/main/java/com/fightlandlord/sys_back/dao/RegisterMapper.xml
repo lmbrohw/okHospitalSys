@@ -22,7 +22,15 @@
     select
     <include refid="Base_Column_List" />
     from register
-    where register_choice = #{doctorId} and register_state = 1 and register_time >= NOW() order by register_time asc limit 1
+    where register_choice = #{doctorId} and register_state = 0 and register_time >= NOW() order by register_time asc limit 1
+  </select>
+
+  <!-- 查询患者以往挂号记录 -->
+  <select id="getRegistRecordByPatientId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from register
+    where patient_id = #{patientId} and register_state = 2 order by register_time asc
   </select>
 
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">

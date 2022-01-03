@@ -9,6 +9,15 @@
   <sql id="Base_Column_List">
     check_table_array_id, check_table_id, check_list_id
   </sql>
+
+  <!--  根据checktableID获取该table下所有array  -->
+  <select id="getCheckTableByCheckTableId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from check_table_array
+    where check_table_id = #{checkTableId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

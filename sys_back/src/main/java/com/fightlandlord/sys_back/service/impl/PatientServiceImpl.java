@@ -41,7 +41,7 @@ public class PatientServiceImpl implements PatientService {
         else{
             Register updatingRegister = new Register();
             updatingRegister.setRegisterId(register.getRegisterId());
-            updatingRegister.setRegisterState(0);
+            updatingRegister.setRegisterState(1);
             int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
             return register;
         }

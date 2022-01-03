@@ -2,6 +2,8 @@ package com.fightlandlord.sys_back.dao;
 
 import com.fightlandlord.sys_back.model.CheckTableArray;
 
+import java.util.List;
+
 public interface CheckTableArrayMapper {
     int deleteByPrimaryKey(String checkTableArrayId);
 
@@ -14,4 +16,6 @@ public interface CheckTableArrayMapper {
     int updateByPrimaryKeySelective(CheckTableArray record);
 
     int updateByPrimaryKey(CheckTableArray record);
+
+    List<CheckTableArray> getCheckTableByCheckTableId(String checkTableId);
 }

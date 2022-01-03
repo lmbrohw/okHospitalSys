@@ -6,5 +6,6 @@ import java.util.List;
 
 public interface DossierTableService {
     int sendDossierTable(DossierTable dossierTable);
+    DossierTable getDossierTableRecordById(String dossierTableId);
 
 }

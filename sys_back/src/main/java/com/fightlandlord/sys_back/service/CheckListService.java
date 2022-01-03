@@ -7,4 +7,5 @@ import java.util.List;
 public interface CheckListService {
     Float getCheckItemPriceById(String checkListId);
     List<CheckList> getCheckList();
+    CheckList queryById(String checkListId);
 }

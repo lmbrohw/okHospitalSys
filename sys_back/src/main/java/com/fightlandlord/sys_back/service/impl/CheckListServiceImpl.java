@@ -24,4 +24,10 @@ public class CheckListServiceImpl implements CheckListService {
     public List<CheckList> getCheckList() {
         return (List<CheckList>) checkListMapper.getAll();
     }
+
+    @Override
+    public CheckList queryById(String checkListId) {
+        return checkListMapper.selectByPrimaryKey(checkListId);
+    }
+
 }
