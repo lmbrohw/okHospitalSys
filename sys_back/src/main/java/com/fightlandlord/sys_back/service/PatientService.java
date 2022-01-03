@@ -12,6 +12,11 @@ public interface PatientService {
 
     Patient queryById(String id);
 
+    //查询患者等待队列
+
     Register getAPatient(String doctorId);
     List<DossierTable> getPatientRecord(String patientID);
+
+
+
 }

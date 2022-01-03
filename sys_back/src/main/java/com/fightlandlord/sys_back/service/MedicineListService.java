@@ -8,4 +8,5 @@ public interface MedicineListService {
     MedicineList queryById(String medicineListId);
     Float getMedicinePriceById(String medicineListId);
     List<MedicineList> getMedicineList();
+    int updateMedicineNum(String medicineListId, Integer num);
 }

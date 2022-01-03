@@ -121,7 +121,6 @@ public class DoctorRouterController {
     public String sendCheckTable(@RequestBody String params){
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject checkItems = jsonObject.getJSONObject("checkTable");
-
         CheckTable checkTable = new CheckTable();
         String checkTableId = UUIDGenerator.makeUUID("CT");
         checkTable.setCheckTableId(checkTableId);
@@ -143,6 +142,9 @@ public class DoctorRouterController {
             checkTableArray.setCheckListId(i);
             int a = checkTableArrayService.addCheckTableArray(checkTableArray);
         }
+
+
+
         return "send";
 
 
@@ -177,8 +179,8 @@ public class DoctorRouterController {
         medicineTable.setMedicineTableState(0);
         int Count = medicineTableService.sendMedicineTable(medicineTable);
 
-        //把处方单的药品信息insert到medicineTableArray
         for(String i : medicineItems.keySet()){
+            //把处方单的药品信息insert到medicineTableArray
             sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
             MedicineTableArray medicineTableArray = new MedicineTableArray();
             medicineTableArray.setMedicineTableArrayId(UUIDGenerator.makeUUID("MTA"));
@@ -186,7 +188,11 @@ public class DoctorRouterController {
             medicineTableArray.setMedicineListId(i);
             medicineTableArray.setMedicineNum(medicineItems.getIntValue(i));
             int a = medicineTableArrayService.addMedicineTableArray(medicineTableArray);
+            //修改库存
+            int b = medicineListService.updateMedicineNum(i, medicineItems.getIntValue(i));
+
         }
+
         return "sendMedicineTable";
     }
 }

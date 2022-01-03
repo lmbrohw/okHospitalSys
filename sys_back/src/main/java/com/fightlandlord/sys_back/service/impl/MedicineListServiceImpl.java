@@ -29,4 +29,12 @@ public class MedicineListServiceImpl implements MedicineListService {
         MedicineList medicineList = medicineListMapper.selectByPrimaryKey(medicineListId);
         return medicineList.getMedicinePrice();
     }
+
+    @Override
+    public int updateMedicineNum(String medicineListId, Integer num) {
+        MedicineList medicineList = medicineListMapper.selectByPrimaryKey(medicineListId);
+        Integer oldNum = medicineList.getMedicineNum();
+        medicineList.setMedicineNum(oldNum-num);
+        return medicineListMapper.updateByPrimaryKeySelective(medicineList);
+    }
 }
