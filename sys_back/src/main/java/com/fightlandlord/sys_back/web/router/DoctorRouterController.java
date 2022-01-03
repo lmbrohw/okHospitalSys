@@ -35,6 +35,8 @@ public class DoctorRouterController {
     MedicineTableArrayService medicineTableArrayService;
     @Autowired
     RegisterService registerService;
+    @Autowired
+    ChargeTableService chargeTableService;
     /**
      * @Author: hudongyue
      * @Description:
@@ -152,10 +154,19 @@ public class DoctorRouterController {
             sum += checkListService.getCheckItemPriceById(i) * checkItems.getIntValue(i);
         }
         checkTable.setTotalPrice(sum);
+        //insert到chargeTable
+        ChargeTable chargeTable = new ChargeTable();
+        chargeTable.setChargeTableId(checkTableId);
+        chargeTable.setPatientId(jsonObject.getString("patientId"));
+        chargeTable.setChargePrice(sum);
+        chargeTable.setChargeState(0);
+        chargeTable.setChargeCreateTime(new Date());
+
         int Count = checkTableService.sendCheckTable(checkTable);
         if (Count == -1)
             return Response.error().message("上传出错，请检查申请单信息");
-        else
+        else{
+            int c = chargeTableService.insertChargeTable(chargeTable);
             //把检申请项目信息insert到checkTableArray
             for(String i : checkItems.keySet()){
                 CheckTableArray checkTableArray = new CheckTableArray();
@@ -164,7 +175,9 @@ public class DoctorRouterController {
                 checkTableArray.setCheckListId(i);
                 int a = checkTableArrayService.addCheckTableArray(checkTableArray);
             }
-            return Response.ok().message("上传成功");
+        }
+
+        return Response.ok().message("上传成功");
     }
 
     /**
@@ -191,10 +204,18 @@ public class DoctorRouterController {
         }
         medicineTable.setTotalPrice(sum);
         medicineTable.setMedicineTableState(0);
+        //insert到chargeTable
+        ChargeTable chargeTable = new ChargeTable();
+        chargeTable.setChargeTableId(medicineTableId);
+        chargeTable.setChargePrice(sum);
+        chargeTable.setPatientId(jsonObject.getString("patientId"));
+        chargeTable.setChargeState(0);
+        chargeTable.setChargeCreateTime(new Date());
         int Count = medicineTableService.sendMedicineTable(medicineTable);
         if (Count == -1)
             return Response.error().message("上传出错，请检查处方单信息");
-        else
+        else{
+            int c = chargeTableService.insertChargeTable(chargeTable);
             for(String i : medicineItems.keySet()){
                 //把处方单的药品信息insert到medicineTableArray
                 sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
@@ -207,6 +228,7 @@ public class DoctorRouterController {
                 //修改库存
                 int b = medicineListService.updateMedicineNum(i, medicineItems.getIntValue(i));
             }
+        }
         return Response.ok().message("上传成功");
     }
 }
