@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping(path = "/doctor")
 public class DoctorRouterController {
 
-
     @Autowired
     DoctorService doctorService;
     @Autowired
@@ -42,9 +41,13 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getAPatient")
-    public Register getAPatient(String doctorId){
+    public Response getAPatient(String doctorId){
 
-        return patientService.getAPatient(doctorId);
+        Register register = patientService.getAPatient(doctorId);
+        if (register == null)
+            return Response.error().message("没有正在等待的病人");
+        else
+            return Response.ok().message("获取成功").data("patientInfo", register);
     }
 
     /**
@@ -68,9 +71,9 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getMedcineList")
-    public List<MedicineList> getMedcineList(){
+    public Response getMedcineList(){
 
-        return medicineListService.getMedicineList();
+        return Response.ok().message("查询成功").data("medicineListInfo", medicineListService.getMedicineList());
     }
 
     /**
@@ -81,9 +84,9 @@ public class DoctorRouterController {
      * @Return
      */
     @GetMapping(value = "/getCheckList")
-    public List<CheckList> getCheckList(){
+    public Response getCheckList(){
 
-        return checkListService.getCheckList();
+        return Response.ok().message("查询成功").data("checkListInfo",checkListService.getCheckList());
     }
 
     /**
@@ -97,15 +100,13 @@ public class DoctorRouterController {
     public Response sendDossierTable(String doctorId, String patientId, String description){
 
         DossierTable dossierTable = new DossierTable();
-        dossierTable.setDossierTableId(UUIDGenerator.makeUUID("DT"));
+        dossierTable.setDossierTableId(UUIDGenerator.makeUUID("dt"));
         dossierTable.setDoctorId(doctorId);
         dossierTable.setPatientId(patientId);
         dossierTable.setDescription(description);
         int Count = dossierTableService.sendDossierTable(dossierTable);
-        System.out.println("Count____________" +Count);
-        if(Count != 1)
-            return Response.error().message("失败");
-
+        if(Count == -1)
+            return Response.error().message("上传出错，请检查病历信息");
         else
             return Response.ok().message("病历上传成功");
     }
@@ -118,11 +119,11 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendCheckTable")
-    public String sendCheckTable(@RequestBody String params){
+    public Response sendCheckTable(@RequestBody String params){
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject checkItems = jsonObject.getJSONObject("checkTable");
         CheckTable checkTable = new CheckTable();
-        String checkTableId = UUIDGenerator.makeUUID("CT");
+        String checkTableId = UUIDGenerator.makeUUID("ct");
         checkTable.setCheckTableId(checkTableId);
         checkTable.setPatientId(jsonObject.getString("patientId"));
         checkTable.setDoctorId(jsonObject.getString("doctorId"));
@@ -133,21 +134,18 @@ public class DoctorRouterController {
         }
         checkTable.setTotalPrice(sum);
         int Count = checkTableService.sendCheckTable(checkTable);
-
-        //把检查项目信息insert到checkTableArray
-        for(String i : checkItems.keySet()){
-            CheckTableArray checkTableArray = new CheckTableArray();
-            checkTableArray.setCheckTableArrayId(UUIDGenerator.makeUUID("CTA"));
-            checkTableArray.setCheckTableId(checkTableId);
-            checkTableArray.setCheckListId(i);
-            int a = checkTableArrayService.addCheckTableArray(checkTableArray);
-        }
-
-
-
-        return "send";
-
-
+        if (Count == -1)
+            return Response.error().message("上传出错，请检查申请单信息");
+        else
+            //把检申请项目信息insert到checkTableArray
+            for(String i : checkItems.keySet()){
+                CheckTableArray checkTableArray = new CheckTableArray();
+                checkTableArray.setCheckTableArrayId(UUIDGenerator.makeUUID("cta"));
+                checkTableArray.setCheckTableId(checkTableId);
+                checkTableArray.setCheckListId(i);
+                int a = checkTableArrayService.addCheckTableArray(checkTableArray);
+            }
+            return Response.ok().message("上传成功");
     }
 
     /**
@@ -158,18 +156,15 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendMedicineTable")
-    public String sendMedicineTable(@RequestBody String params){
+    public Response sendMedicineTable(@RequestBody String params){
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject medicineItems = jsonObject.getJSONObject("medicineTable");
 
-
         MedicineTable medicineTable = new MedicineTable();
-        String medicineTableId = UUIDGenerator.makeUUID("MT");
+        String medicineTableId = UUIDGenerator.makeUUID("mt");
         medicineTable.setMedicineTableId(medicineTableId);
         medicineTable.setPatientId(jsonObject.getString("patientId"));
         medicineTable.setDoctorId(jsonObject.getString("doctorId"));
-        medicineTable.setPharmacistId(null);
-        medicineTable.setDispenserId(null);
         //计算 totalprice
         float sum= 0f;
         for(String i : medicineItems.keySet()){
@@ -178,21 +173,21 @@ public class DoctorRouterController {
         medicineTable.setTotalPrice(sum);
         medicineTable.setMedicineTableState(0);
         int Count = medicineTableService.sendMedicineTable(medicineTable);
-
-        for(String i : medicineItems.keySet()){
-            //把处方单的药品信息insert到medicineTableArray
-            sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
-            MedicineTableArray medicineTableArray = new MedicineTableArray();
-            medicineTableArray.setMedicineTableArrayId(UUIDGenerator.makeUUID("MTA"));
-            medicineTableArray.setMedicineTableId(medicineTableId);
-            medicineTableArray.setMedicineListId(i);
-            medicineTableArray.setMedicineNum(medicineItems.getIntValue(i));
-            int a = medicineTableArrayService.addMedicineTableArray(medicineTableArray);
-            //修改库存
-            int b = medicineListService.updateMedicineNum(i, medicineItems.getIntValue(i));
-
-        }
-
-        return "sendMedicineTable";
+        if (Count == -1)
+            return Response.error().message("上传出错，请检查处方单信息");
+        else
+            for(String i : medicineItems.keySet()){
+                //把处方单的药品信息insert到medicineTableArray
+                sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+                MedicineTableArray medicineTableArray = new MedicineTableArray();
+                medicineTableArray.setMedicineTableArrayId(UUIDGenerator.makeUUID("mta"));
+                medicineTableArray.setMedicineTableId(medicineTableId);
+                medicineTableArray.setMedicineListId(i);
+                medicineTableArray.setMedicineNum(medicineItems.getIntValue(i));
+                int a = medicineTableArrayService.addMedicineTableArray(medicineTableArray);
+                //修改库存
+                int b = medicineListService.updateMedicineNum(i, medicineItems.getIntValue(i));
+            }
+        return Response.ok().message("上传成功");
     }
 }

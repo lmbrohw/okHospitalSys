@@ -36,10 +36,14 @@ public class PatientServiceImpl implements PatientService {
     public Register getAPatient(String doctorId) {
 
         Register register = registerMapper.getAPatient(doctorId);
-        Register updatingRegister = new Register();
-        updatingRegister.setRegisterId(register.getRegisterId());
-        updatingRegister.setRegisterState(0);
-        int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
-        return register;
+        if (register == null)
+            return null;
+        else{
+            Register updatingRegister = new Register();
+            updatingRegister.setRegisterId(register.getRegisterId());
+            updatingRegister.setRegisterState(0);
+            int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
+            return register;
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.fightlandlord.sys_back.service.impl;
 
+import com.fightlandlord.sys_back.dao.DoctorMapper;
 import com.fightlandlord.sys_back.dao.DossierTableMapper;
+import com.fightlandlord.sys_back.dao.PatientMapper;
 import com.fightlandlord.sys_back.model.DossierTable;
 import com.fightlandlord.sys_back.service.DossierTableService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +14,18 @@ import java.util.List;
 public class DossierTableServiceImpl implements DossierTableService {
     @Autowired
     DossierTableMapper dossierTableMapper;
+    @Autowired
+    PatientMapper patientMapper;
+    @Autowired
+    DoctorMapper doctorMapper;
     @Override
     public int sendDossierTable(DossierTable dossierTable) {
-        return dossierTableMapper.insertSelective(dossierTable);
+
+        //该处方单的doctorId和patientId有误
+        if (patientMapper.selectByPrimaryKey(dossierTable.getPatientId()) == null || doctorMapper.selectByPrimaryKey(dossierTable.getDoctorId()) == null)
+            return -1;
+        else
+            return dossierTableMapper.insertSelective(dossierTable);
     }
 
 }
