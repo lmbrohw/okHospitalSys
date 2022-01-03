@@ -18,4 +18,10 @@ public class MedicineTableArrayServiceImpl implements MedicineTableArrayService 
     public List<MedicineTableArray> getMedicineTableByMedicineTableId(String medicineTableId) {
         return medicineTableArrayMapper.getMedicineTableByMedicineTableId(medicineTableId);
     }
+
+
+    @Override
+    public int addMedicineTableArray(MedicineTableArray medicineTableArray) {
+        return medicineTableArrayMapper.insertSelective(medicineTableArray);
+    }
 }

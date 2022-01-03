@@ -10,4 +10,6 @@ public interface MedicineTableService {
     int modifyById(MedicineTable medicineTable);
 
     MedicineTable getAMedicineTableForPharmacist();
+
+    int sendMedicineTable(MedicineTable medicineTable);
 }

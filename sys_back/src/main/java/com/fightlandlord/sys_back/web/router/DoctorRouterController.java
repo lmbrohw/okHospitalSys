@@ -3,14 +3,13 @@ package com.fightlandlord.sys_back.web.router;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fightlandlord.sys_back.model.*;
-import com.fightlandlord.sys_back.service.DoctorService;
+import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
 import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "/doctor")
@@ -19,6 +18,22 @@ public class DoctorRouterController {
 
     @Autowired
     DoctorService doctorService;
+    @Autowired
+    CheckTableService checkTableService;
+    @Autowired
+    CheckListService checkListService;
+    @Autowired
+    MedicineListService medicineListService;
+    @Autowired
+    MedicineTableService medicineTableService;
+    @Autowired
+    PatientService patientService;
+    @Autowired
+    DossierTableService dossierTableService;
+    @Autowired
+    CheckTableArrayService checkTableArrayService;
+    @Autowired
+    MedicineTableArrayService medicineTableArrayService;
     /**
      * @Author: hudongyue
      * @Description:
@@ -29,7 +44,7 @@ public class DoctorRouterController {
     @GetMapping(value = "/getAPatient")
     public Register getAPatient(String doctorId){
 
-        return doctorService.getAPatient(doctorId);
+        return patientService.getAPatient(doctorId);
     }
 
     /**
@@ -42,7 +57,7 @@ public class DoctorRouterController {
     @GetMapping(value = "/getPatientRecord")
     public List<DossierTable> getPatientRecord(String patientId){
 
-        return doctorService.getPatientRecord(patientId);
+        return patientService.getPatientRecord(patientId);
     }
 
     /**
@@ -55,7 +70,7 @@ public class DoctorRouterController {
     @GetMapping(value = "/getMedcineList")
     public List<MedicineList> getMedcineList(){
 
-        return doctorService.getMedicineList();
+        return medicineListService.getMedicineList();
     }
 
     /**
@@ -68,7 +83,7 @@ public class DoctorRouterController {
     @GetMapping(value = "/getCheckList")
     public List<CheckList> getCheckList(){
 
-        return doctorService.getCheckList();
+        return checkListService.getCheckList();
     }
 
     /**
@@ -86,7 +101,7 @@ public class DoctorRouterController {
         dossierTable.setDoctorId(doctorId);
         dossierTable.setPatientId(patientId);
         dossierTable.setDescription(description);
-        int Count = doctorService.sendDossierTable(dossierTable);
+        int Count = dossierTableService.sendDossierTable(dossierTable);
         System.out.println("Count____________" +Count);
         if(Count != 1)
             return Response.error().message("失败");
@@ -115,10 +130,10 @@ public class DoctorRouterController {
         //计算 totalprice
         float sum= 0f;
         for(String i : checkItems.keySet()){
-            sum += doctorService.getCheckItemPriceById(i) * checkItems.getIntValue(i);
+            sum += checkListService.getCheckItemPriceById(i) * checkItems.getIntValue(i);
         }
         checkTable.setTotalPrice(sum);
-        int Count = doctorService.sendCheckTable(checkTable);
+        int Count = checkTableService.sendCheckTable(checkTable);
 
         //把检查项目信息insert到checkTableArray
         for(String i : checkItems.keySet()){
@@ -126,7 +141,7 @@ public class DoctorRouterController {
             checkTableArray.setCheckTableArrayId(UUIDGenerator.makeUUID("CTA"));
             checkTableArray.setCheckTableId(checkTableId);
             checkTableArray.setCheckListId(i);
-            int a = doctorService.addCheckTableArray(checkTableArray);
+            int a = checkTableArrayService.addCheckTableArray(checkTableArray);
         }
         return "send";
 
@@ -156,21 +171,21 @@ public class DoctorRouterController {
         //计算 totalprice
         float sum= 0f;
         for(String i : medicineItems.keySet()){
-            sum += doctorService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+            sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
         }
         medicineTable.setTotalPrice(sum);
         medicineTable.setMedicineTableState(0);
-        int Count = doctorService.sendMedicineTable(medicineTable);
+        int Count = medicineTableService.sendMedicineTable(medicineTable);
 
         //把处方单的药品信息insert到medicineTableArray
         for(String i : medicineItems.keySet()){
-            sum += doctorService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+            sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
             MedicineTableArray medicineTableArray = new MedicineTableArray();
             medicineTableArray.setMedicineTableArrayId(UUIDGenerator.makeUUID("MTA"));
             medicineTableArray.setMedicineTableId(medicineTableId);
             medicineTableArray.setMedicineListId(i);
             medicineTableArray.setMedicineNum(medicineItems.getIntValue(i));
-            int a = doctorService.addMedicineTableArray(medicineTableArray);
+            int a = medicineTableArrayService.addMedicineTableArray(medicineTableArray);
         }
         return "sendMedicineTable";
     }

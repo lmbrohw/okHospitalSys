@@ -31,4 +31,9 @@ public class MedicineTableServiceImpl implements MedicineTableService {
     public MedicineTable getAMedicineTableForPharmacist() {
         return medicineTableMapper.getAMedicineTableForPharmacist();
     }
+
+    @Override
+    public int sendMedicineTable(MedicineTable medicineTable) {
+        return medicineTableMapper.insertSelective(medicineTable);
+    }
 }

@@ -6,6 +6,8 @@ import com.fightlandlord.sys_back.service.MedicineListService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MedicineListServiceImpl implements MedicineListService {
 
@@ -15,5 +17,16 @@ public class MedicineListServiceImpl implements MedicineListService {
     @Override
     public MedicineList queryById(String medicineListId) {
         return medicineListMapper.selectByPrimaryKey(medicineListId);
+    }
+
+    @Override
+    public List<MedicineList> getMedicineList() {
+        return medicineListMapper.getAll();
+    }
+
+    @Override
+    public Float getMedicinePriceById(String medicineListId) {
+        MedicineList medicineList = medicineListMapper.selectByPrimaryKey(medicineListId);
+        return medicineList.getMedicinePrice();
     }
 }

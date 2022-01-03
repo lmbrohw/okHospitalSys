@@ -36,68 +36,26 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorMapper.selectByPrimaryKey(doctorID);
     }
 
-    @Override
-    public Register getAPatient(String doctorId) {
 
-        Register register = registerMapper.getAPatient(doctorId);
-        Register updatingRegister = new Register();
-        updatingRegister.setRegisterId(register.getRegisterId());
-        updatingRegister.setRegisterState(0);
-        int a = registerMapper.updateByPrimaryKeySelective(updatingRegister);
-        return register;
-    }
 
-    @Override
-    public List<CheckList> getCheckList() {
-        return (List<CheckList>) checkListMapper.getAll();
-    }
 
-    @Override
-    public List<MedicineList> getMedicineList() {
-        return medicineListMapper.getAll();
-    }
 
-    @Override
-    public int sendDossierTable(DossierTable dossierTable) {
-        return dossierTableMapper.insertSelective(dossierTable);
-    }
 
-    @Override
-    public List<DossierTable> getPatientRecord(String patientID) {
-        return dossierTableMapper.getDossierTableByPatientId(patientID);
-    }
 
-    @Override
-    public Float getCheckItemPriceById(String checkListId) {
-        CheckList checkListItem = checkListMapper.selectByPrimaryKey(checkListId);
-        return checkListItem.getCheckPrice();
-    }
 
-    @Override
-    public int sendCheckTable(CheckTable checkTable) {
-        return checkTableMapper.insertSelective(checkTable);
-    }
 
-    @Override
-    public Float getMedicinePriceById(String medicineListId) {
-        MedicineList medicineList = medicineListMapper.selectByPrimaryKey(medicineListId);
-        return medicineList.getMedicinePrice();
-    }
 
-    @Override
-    public int sendMedicineTable(MedicineTable medicineTable) {
-        return medicineTableMapper.insertSelective(medicineTable);
-    }
 
-    @Override
-    public int addCheckTableArray(CheckTableArray checkTableArray) {
-        return checkTableArrayMapper.insertSelective(checkTableArray);
-    }
 
-    @Override
-    public int addMedicineTableArray(MedicineTableArray medicineTableArray) {
-        return medicineTableArrayMapper.insertSelective(medicineTableArray);
-    }
+
+
+
+
+
+
+
+
+
 
 }
 

@@ -10,5 +10,11 @@ import java.util.List;
 
 @Service
 public class DossierTableServiceImpl implements DossierTableService {
+    @Autowired
+    DossierTableMapper dossierTableMapper;
+    @Override
+    public int sendDossierTable(DossierTable dossierTable) {
+        return dossierTableMapper.insertSelective(dossierTable);
+    }
 
 }

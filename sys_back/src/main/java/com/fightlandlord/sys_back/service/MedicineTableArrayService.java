@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface MedicineTableArrayService {
     List<MedicineTableArray> getMedicineTableByMedicineTableId(String medicineTableId);
+    int addMedicineTableArray(MedicineTableArray medicineTableArray);
 }
