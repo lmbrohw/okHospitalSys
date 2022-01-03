@@ -9,10 +9,7 @@ import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping(path = "/dispenser")
@@ -38,6 +35,9 @@ public class DispenserRouterController {
 
     @Autowired
     DispenserService dispenserService;
+
+    @Autowired
+    ChargeTableService chargeTableService;
 
 
 
@@ -111,7 +111,7 @@ public class DispenserRouterController {
         if(withdrawMedicineTableService.sendWithdrawMedicineTable(withdrawMedicineTable) == 0)
             return Response.error().message("退药单存入数据库出错！");
 
-        //把检查项目信息insert到checkTableArray
+        // insert withdrawMedicineTableArray
         for(String medicineListId : withdrawMedicineTableMap.keySet()){
             WithdrawMedicineTableArray withdrawMedicineTableArray = new WithdrawMedicineTableArray(withdrawMedicineTable.getWithdrawMedicineTableId(),
                     medicineListId, withdrawMedicineTableMap.getIntValue(medicineListId));
@@ -119,9 +119,17 @@ public class DispenserRouterController {
                 return Response.error().message("退药单存入数据库出错！");
             }
         }
+        // chargeItemId, patientId, chargerId, chargeCreateTime, chargePrice
+        /** 生成对应账单 **/
+        ChargeTable chargeTable = new ChargeTable();
+        chargeTable.setChargeTableId(withdrawMedicineTable.getWithdrawMedicineTableId());
+        chargeTable.setPatientId(patientId);
+        chargeTable.setChargeCreateTime(new Date());
+        chargeTable.setChargePrice(totalPrice);
+        chargeTable.setChargeState(0);
 
-        // 生成对应账单
-
+        if(chargeTableService.insertChargeTable(chargeTable) == 0)
+            return Response.error().message("退药单对应账单存入数据库出错！");
 
         return Response.ok().message("退药单生成成功！").data("withdrawMedicineTableId", withdrawMedicineTable.getWithdrawMedicineTableId());
     }

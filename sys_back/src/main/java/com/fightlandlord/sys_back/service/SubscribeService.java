@@ -5,12 +5,6 @@ import com.fightlandlord.sys_back.model.Subscribe;
 
 import java.util.List;
 
-/**
- * @Author: hudongyue
- * @Description:
- * @DateTime: 2022/1/1 22:20
- */
-
 public interface SubscribeService {
 
     Subscribe queryById(String subscribeId);
