@@ -8,7 +8,9 @@ import java.util.Map;
 public interface MedicineTableService {
     MedicineTable queryById(String medicineTableId);
 
-    Map<String,Object> getAMedicineTable(int role);
+    Map<String,Object> getMedicineTableJSON(MedicineTable medicineTable);
+
+    MedicineTable getAMedicineTable(int role);
 
     Response modifyMedicineTableState(String medicineTableId, String roleId, int changeToState);
 

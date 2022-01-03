@@ -34,17 +34,10 @@ public class MedicineTableServiceImpl implements MedicineTableService {
     }
 
     @Override
-    public Map<String,Object> getAMedicineTable(int role) {
-        Map<String,Object> jsonMap = new HashMap<String,Object>();
-        MedicineTable medicineTable = null;
-        if(role == 1) // dispenser
-            medicineTable = medicineTableMapper.getAMedicineTableForDispenser();
-        else if(role == 0) // pharmacist
-            medicineTable = medicineTableMapper.getAMedicineTableForPharmacist();
-        
+    public Map<String, Object> getMedicineTableJSON(MedicineTable medicineTable) {
         if(medicineTable == null)
-            return jsonMap;
-
+            return null;
+        Map<String,Object> jsonMap = new HashMap<String,Object>();
         List<MedicineTableArray> medicineTableArrays = medicineTableArrayService.getMedicineTableByMedicineTableId(medicineTable.getMedicineTableId());
 
         // 拼接medicineTable
@@ -72,6 +65,15 @@ public class MedicineTableServiceImpl implements MedicineTableService {
         }
 
         return jsonMap;
+    }
+
+    @Override
+    public MedicineTable getAMedicineTable(int role) {
+        if(role == 1) // dispenser
+            return medicineTableMapper.getAMedicineTableForDispenser();
+        else if(role == 0) // pharmacist
+            return medicineTableMapper.getAMedicineTableForPharmacist();
+        return null;
     }
 
     @Override

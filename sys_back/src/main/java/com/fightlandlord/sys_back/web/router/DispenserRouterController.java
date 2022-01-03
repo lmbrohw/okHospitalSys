@@ -49,8 +49,9 @@ public class DispenserRouterController {
      */
     @GetMapping(value = "/getAMedicineTable")
     public Response getAMedicineTable(){
-        Map<String,Object> jsonMap = medicineTableService.getAMedicineTable(1);
-        if(jsonMap.size() == 0) return Response.ok().message("暂无代审核处方单！");
+        MedicineTable medicineTable = medicineTableService.getAMedicineTable(1);
+        Map<String, Object> jsonMap = medicineTableService.getMedicineTableJSON(medicineTable);
+        if(jsonMap == null || jsonMap.size() == 0) return Response.ok().message("暂无代审核处方单！");
         return Response.ok().message("获取处方单成功！").data(jsonMap);
     }
 
