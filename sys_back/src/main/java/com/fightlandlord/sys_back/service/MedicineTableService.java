@@ -1,15 +1,19 @@
 package com.fightlandlord.sys_back.service;
 
 import com.fightlandlord.sys_back.model.MedicineTable;
+import com.fightlandlord.sys_back.util.Response;
+
+import java.util.Map;
 
 public interface MedicineTableService {
     MedicineTable queryById(String medicineTableId);
 
-    MedicineTable getAMedicineTableForDispenser();
+    Map<String,Object> getAMedicineTable(int role);
+
+    Response modifyMedicineTableState(String medicineTableId, String roleId, int changeToState);
 
     int modifyById(MedicineTable medicineTable);
 
-    MedicineTable getAMedicineTableForPharmacist();
-
     int sendMedicineTable(MedicineTable medicineTable);
+
 }
