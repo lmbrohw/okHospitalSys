@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface RegisterService {
     List<Register> getRegisterByPatientId(String patientId);
+
+    int insertRegister(Register register);
 }

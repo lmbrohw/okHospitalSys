@@ -6,7 +6,6 @@ import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
 import com.fightlandlord.sys_back.util.UUIDGenerator;
-import org.apache.tomcat.jni.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -69,7 +68,7 @@ public class DoctorRouterController {
             Map<String,Object> oneTreatmentInfo = new HashMap<>();
             Date time = registeRecord.getRegisterTime();
             String doctorId = registeRecord.getRegisterChoice();
-            DossierTable dossierTableRecord = dossierTableService.getDossierTableRecordById(registeRecord.getDossierTableId());
+            DossierTable dossierTableRecord = dossierTableService.queryById(registeRecord.getDossierTableId());
             Map<String, Object> medicineTableRecord = medicineTableService.getMedicineTableJSON(medicineTableService.queryById(registeRecord.getMedicineTableId()));
             Map<String, Object> checkTableRecord = checkTableService.getCheckTableJSON((checkTableService.queryById(registeRecord.getCheckTableId())));
             oneTreatmentInfo.put("time", time);

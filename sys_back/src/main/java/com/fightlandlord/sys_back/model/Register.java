@@ -1,5 +1,7 @@
 package com.fightlandlord.sys_back.model;
 
+import com.fightlandlord.sys_back.util.UUIDGenerator;
+
 import java.util.Date;
 
 public class Register {
@@ -22,6 +24,17 @@ public class Register {
     private String withdrawMedicineTableId;
 
     private Integer registerState;
+
+    public Register() {}
+
+    public Register(String patientId, String registerChoice, Date registerTime, int isSubscribe) {
+        this.registerId = UUIDGenerator.makeUUID("rg");
+        this.patientId = patientId;
+        this.registerChoice = registerChoice;
+        this.registerTime = registerTime;
+        this.isSubscribe = isSubscribe;
+        this.registerState = 0;
+    }
 
     public String getRegisterId() {
         return registerId;

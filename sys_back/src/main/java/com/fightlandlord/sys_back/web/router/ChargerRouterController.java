@@ -2,9 +2,11 @@ package com.fightlandlord.sys_back.web.router;
 
 import com.fightlandlord.sys_back.model.ChargeTable;
 import com.fightlandlord.sys_back.model.Patient;
+import com.fightlandlord.sys_back.model.Register;
 import com.fightlandlord.sys_back.model.Subscribe;
 import com.fightlandlord.sys_back.service.ChargeTableService;
 import com.fightlandlord.sys_back.service.PatientService;
+import com.fightlandlord.sys_back.service.RegisterService;
 import com.fightlandlord.sys_back.service.SubscribeService;
 import com.fightlandlord.sys_back.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,9 @@ public class ChargerRouterController {
 
     @Autowired
     PatientService patientService;
+
+    @Autowired
+    RegisterService registerService;
 
     /**
     * @Author: hudongyue
@@ -91,9 +96,10 @@ public class ChargerRouterController {
      * @Return 成功与否
      */
     @PostMapping(value = "/sendChargeTableState")
-    public Response sendChargeTableState(){
+    public Response sendChargeTableState(@RequestParam("tableId") String chargeTableId,
+                                         @RequestParam("state") int changeToState){
 
-        return null;
+        return chargeTableService.modifyChargeTableState(chargeTableId, changeToState);
     }
 
 
@@ -105,8 +111,17 @@ public class ChargerRouterController {
     * @Return
     */
     @PostMapping(value = "/sendRegister")
-    public String sendRegister(){
-        return "sendRegister";
+    public Response sendRegister(@RequestParam("patientId") String patientId,
+                                 @RequestParam("registerChoice") String registerChoice,
+                                 @RequestParam("registerTime") String registerTime,
+                                 @RequestParam("isSubscribe") int isSubscribe){
+        /***** 时间处理 查询判断******/
+
+        Register register = new Register(patientId, registerChoice, new Date(), isSubscribe);
+
+        if(registerService.insertRegister(register) == 0)
+            return Response.error().message("插入register失败！");
+        return Response.ok().message("插入register成功！");
     }
 }
 

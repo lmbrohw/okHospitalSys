@@ -73,6 +73,7 @@ public class CheckTableServiceImpl implements CheckTableService {
 
     @Override
     public CheckTable queryById(String checkTableId) {
+        if(!checkTableId.substring(0, 2).equals("ct")) return null;
         return checkTableMapper.selectByPrimaryKey(checkTableId);
     }
 

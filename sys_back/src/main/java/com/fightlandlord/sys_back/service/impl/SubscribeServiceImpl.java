@@ -16,6 +16,7 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     @Override
     public Subscribe queryById(String subscribeId) {
+        if(!subscribeId.substring(0, 2).equals("sb")) return null;
         return subscribeMapper.selectByPrimaryKey(subscribeId);
     }
 
