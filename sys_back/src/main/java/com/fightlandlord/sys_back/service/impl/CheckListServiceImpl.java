@@ -28,7 +28,7 @@ public class CheckListServiceImpl implements CheckListService {
 
     @Override
     public CheckList queryById(String checkListId) {
-        if(!checkListId.substring(0, 2).equals("cl")) return null;
+        if(checkListId.length() < 2 || !checkListId.substring(0, 2).equals("cl")) return null;
         return checkListMapper.selectByPrimaryKey(checkListId);
     }
 

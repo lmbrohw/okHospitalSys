@@ -39,7 +39,7 @@ public class MedicineTableServiceImpl implements MedicineTableService {
 
     @Override
     public MedicineTable queryById(String medicineTableId) {
-        if(!medicineTableId.substring(0, 2).equals("mt")) return null;
+        if(medicineTableId.length() < 2 || !medicineTableId.substring(0, 2).equals("mt")) return null;
         return medicineTableMapper.selectByPrimaryKey(medicineTableId);
     }
 

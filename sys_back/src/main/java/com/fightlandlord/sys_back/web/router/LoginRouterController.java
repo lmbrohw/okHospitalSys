@@ -31,6 +31,7 @@ public class LoginRouterController {
     @GetMapping(path = "/login")
     public Response login(@RequestParam("userId") String userId,
                           @RequestParam("password") String password){
+        if(userId.length() < 2) return Response.error().message("登录失败，账户或者密码错误！");
         String prefix = userId.substring(0, 2);
         if(prefix.equals("pt")) { // patient
             Patient patient = patientService.queryById(userId);
@@ -62,17 +63,24 @@ public class LoginRouterController {
     }
 
     public boolean auth(String userId) {
+        if(userId.length() < 2) return false;
         String prefix = userId.substring(0, 2);
-        if(prefix.equals("pt")) { // patient
-            Patient patient = patientService.queryById(userId);
-            if(patient == null)
-                return false;
-            return true;
-        } else if(prefix.equals("dt")) {// doctor
-
-        } else if(prefix.equals("pm")) {// pharmacist
-        } else if(prefix.equals("ds")) {// dispenser
-        } else if(prefix.equals("cg")) {// charger
+        switch (prefix) {
+            case "pt":  // patient
+                Patient patient = patientService.queryById(userId);
+                return patient != null;
+            case "dt": // doctor
+                Doctor doctor = doctorService.queryById(userId);
+                return doctor != null;
+            case "pm": // pharmacist
+                Pharmacist pharmacist = pharmacistService.queryById(userId);
+                return pharmacist != null;
+            case "ds": // dispenser
+                Dispenser dispenser = dispenserService.queryById(userId);
+                return dispenser != null;
+            case "cg": // charger
+                Charger charger = chargerService.queryById(userId);
+                return charger != null;
         }
         return false;
     }

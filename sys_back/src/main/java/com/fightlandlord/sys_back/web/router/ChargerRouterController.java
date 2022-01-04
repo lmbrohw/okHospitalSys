@@ -39,6 +39,7 @@ public class ChargerRouterController {
     */
     @GetMapping(value = "/getChargeTable")
     public Response getChargeTable(@RequestParam("tableId") String tableId){
+        if(tableId.length() < 2) return Response.error().message("不存在该账单！");
         String prefix = tableId.substring(0, 2);
         ChargeTable chargeTable;
         if(prefix.equals("rg") || prefix.equals("ct") || prefix.equals("mt") ||
@@ -52,7 +53,7 @@ public class ChargerRouterController {
 
     @GetMapping(value = "/getSubscribe")
     public Response getSubscribe(@RequestParam("patientId") String patientId){
-        if((!patientId.substring(0, 2).equals("pt")) || patientService.queryById(patientId) == null) return Response.error().message("不存在该患者！");
+        if(patientService.queryById(patientId) == null) return Response.error().message("不存在该患者！");
         List<Subscribe> subscribeList = subscribeService.getSubscribeListByPatientId(patientId);
         if(subscribeList.size() == 0) return Response.error().message("该患者没有预约记录！");
         return Response.ok().message("获取该用户最近预约记录成功！").data("subscribe", subscribeList.get(0));

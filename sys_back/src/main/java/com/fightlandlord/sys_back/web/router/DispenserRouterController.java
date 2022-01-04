@@ -52,8 +52,6 @@ public class DispenserRouterController {
     */
     @GetMapping(value = "/getAMedicineTableWithID")
     public Response getAMedicineTableWithId(@RequestParam("tableId") String medicineTableId){
-        if(!medicineTableId.substring(0, 2).equals("mt"))
-            return Response.error().message("不存在该medicineTable！");
         MedicineTable medicineTable = medicineTableService.queryById(medicineTableId);
         Map<String, Object> jsonMap = medicineTableService.getMedicineTableJSON(medicineTable);
         if(jsonMap == null || jsonMap.size() == 0) return Response.error().message("不存在该medicineTable！");

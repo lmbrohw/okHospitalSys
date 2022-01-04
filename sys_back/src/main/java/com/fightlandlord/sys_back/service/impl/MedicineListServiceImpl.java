@@ -16,7 +16,7 @@ public class MedicineListServiceImpl implements MedicineListService {
 
     @Override
     public MedicineList queryById(String medicineListId) {
-        if(!medicineListId.substring(0, 2).equals("ml")) return null;
+        if(medicineListId.length() < 2 || !medicineListId.substring(0, 2).equals("ml")) return null;
         return medicineListMapper.selectByPrimaryKey(medicineListId);
     }
 

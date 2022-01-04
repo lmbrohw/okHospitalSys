@@ -29,7 +29,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public Patient queryById(String patientId) {
-        if(!patientId.substring(0, 2).equals("pt")) return null;
+        if(patientId.length() < 2 || !patientId.substring(0, 2).equals("pt")) return null;
         return patientMapper.selectByPrimaryKey(patientId);
     }
 

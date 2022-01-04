@@ -30,7 +30,7 @@ public class DossierTableServiceImpl implements DossierTableService {
 
     @Override
     public DossierTable queryById(String dossierTableId) {
-        if(!dossierTableId.substring(0, 2).equals("dt")) return null;
+        if(dossierTableId.length() < 2 || !dossierTableId.substring(0, 2).equals("dt")) return null;
         return dossierTableMapper.selectByPrimaryKey(dossierTableId);
     }
 

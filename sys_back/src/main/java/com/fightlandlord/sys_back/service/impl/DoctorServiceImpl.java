@@ -18,6 +18,7 @@ public class DoctorServiceImpl implements DoctorService {
 
     @Override
     public Doctor queryById(String doctorID) {
+        if(doctorID.length() < 2 || !doctorID.substring(0, 2).equals("dt")) return null;
         return doctorMapper.selectByPrimaryKey(doctorID);
     }
 

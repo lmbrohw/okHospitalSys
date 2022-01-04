@@ -24,7 +24,7 @@ public class RegisterServiceImpl implements RegisterService {
 
     @Override
     public Register queryById(String registerId) {
-        if(!registerId.substring(0, 2).equals("rg")) return null;
+        if(registerId.length() < 2 || !registerId.substring(0, 2).equals("rg")) return null;
         return registerMapper.selectByPrimaryKey(registerId);
     }
 

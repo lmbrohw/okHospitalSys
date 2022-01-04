@@ -14,7 +14,7 @@ public class DispenserServiceImpl implements DispenserService {
 
     @Override
     public Dispenser queryById(String dispenserId) {
-        if(!dispenserId.substring(0, 2).equals("ds")) return null;
+        if(dispenserId.length() < 2 || !dispenserId.substring(0, 2).equals("ds")) return null;
         return dispenserMapper.selectByPrimaryKey(dispenserId);
     }
 

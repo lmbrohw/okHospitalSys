@@ -14,7 +14,7 @@ public class PharmacistServiceImpl implements PharmacistService {
 
     @Override
     public Pharmacist queryById(String pharmacistId) {
-        if(!pharmacistId.substring(0, 2).equals("pm")) return null;
+        if(pharmacistId.length() < 2 || !pharmacistId.substring(0, 2).equals("pm")) return null;
         return pharmacistMapper.selectByPrimaryKey(pharmacistId);
     }
 

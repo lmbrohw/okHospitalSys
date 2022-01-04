@@ -16,6 +16,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department queryById(String departmentID) {
+        if(departmentID.length() < 2 || !departmentID.substring(0, 2).equals("dp")) return null;
         return departmentMapper.selectByPrimaryKey(departmentID);
     }
 
