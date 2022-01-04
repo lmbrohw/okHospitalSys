@@ -11,6 +11,16 @@ public class Charger {
 
     private String password;
 
+    public Charger() {}
+
+    public Charger(String chargerId, int gender, int age, String name, String password) {
+        this.chargerId = chargerId;
+        this.gender = gender;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getChargerId() {
         return chargerId;
     }

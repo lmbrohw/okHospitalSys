@@ -37,15 +37,17 @@ public class DoctorRouterController {
     RegisterService registerService;
     @Autowired
     ChargeTableService chargeTableService;
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:01
-     * @Params:
-     * @Return
-     */
     @GetMapping(value = "/getAPatient")
     public Response getAPatient(String doctorId){
+        /**
+         *
+         *
+         * @description:
+         * @param doctorId
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:31 PM
+         */
 
         Register register = patientService.getAPatient(doctorId);
         if (register == null)
@@ -56,6 +58,16 @@ public class DoctorRouterController {
 
     @GetMapping(value = "/getPatientRecord")
     public Response getPatientRecord(String patientId){
+        /**
+         *
+         *
+         * @description:
+         * @param patientId
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:31 PM
+         */
+
         List<Register> registeRecords = registerService.getRegisterByPatientId(patientId);
         List<Map<String, Object>> allRecords = new LinkedList<>();
 
@@ -79,19 +91,48 @@ public class DoctorRouterController {
 
     @GetMapping(value = "/getMedcineList")
     public Response getMedcineList(){
+        /**
+         *
+         *
+         * @description:
+         * @param
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:32 PM
+         */
 
         return Response.ok().message("查询成功").data("medicineListInfo", medicineListService.getMedicineList());
     }
 
     @GetMapping(value = "/getCheckList")
     public Response getCheckList(){
+        /**
+         *
+         *
+         * @description:
+         * @param
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:32 PM
+         */
 
         return Response.ok().message("查询成功").data("checkListInfo",checkListService.getCheckList());
     }
 
     @PostMapping(value = "/sendDossierTable")
     public Response sendDossierTable(String registerId, String doctorId, String patientId, String description){
-        /** modify withdrawTableId in register **/
+        /**
+         *
+         *
+         * @description:
+         * @param registerId
+         * @param doctorId
+         * @param patientId
+         * @param description
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:32 PM
+         */
 
         DossierTable dossierTable = new DossierTable();
         dossierTable.setDossierTableId(UUIDGenerator.makeUUID("dt"));
@@ -113,8 +154,15 @@ public class DoctorRouterController {
 
     @PostMapping(value = "/sendCheckTable")
     public Response sendCheckTable(@RequestBody String params){
-
-        /** modify withdrawTableId in register **/
+        /**
+         *
+         *
+         * @description:
+         * @param params
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:33 PM
+         */
 
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject checkItems = jsonObject.getJSONObject("checkTable");
@@ -165,8 +213,15 @@ public class DoctorRouterController {
 
     @PostMapping(value = "/sendMedicineTable")
     public Response sendMedicineTable(@RequestBody String params){
-
-        /** modify withdrawTableId in register **/
+        /**
+         *
+         *
+         * @description:
+         * @param params
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/2 1:33 PM
+         */
 
         JSONObject jsonObject = JSON.parseObject(params);
         JSONObject medicineItems = jsonObject.getJSONObject("medicineTable");
@@ -224,6 +279,16 @@ public class DoctorRouterController {
 
     @PostMapping(value = "/sendRegisterState")
     public Response sendRegisterState(@RequestParam("tableId") String registerId){
+        /**
+         *
+         *
+         * @description:
+         * @param registerId
+         * @return: com.fightlandlord.sys_back.util.Response
+         * @author: Huwwwww
+         * @time: 2022/1/3 20:34 PM
+         */
+
         if(registerService.modifyRegisterState(registerId, 3) == 0)
             return Response.error().message("改变register状态失败！");
         return Response.ok().message("改变register状态成功！");

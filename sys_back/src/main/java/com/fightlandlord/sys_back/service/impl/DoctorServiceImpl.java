@@ -31,6 +31,12 @@ public class DoctorServiceImpl implements DoctorService {
         return doctorMapper.getExpertList();
     }
 
+    @Override
+    public int insertDoctor(Doctor doctor) {
+        if(queryById(doctor.getDoctorId()) != null) return 0;
+        return doctorMapper.insert(doctor);
+    }
+
 
 }
 

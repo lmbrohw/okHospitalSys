@@ -11,6 +11,16 @@ public class Dispenser {
 
     private String password;
 
+    public Dispenser() {}
+
+    public Dispenser(String dispenserId, int gender, int age, String name, String password) {
+        this.dispenserId = dispenserId;
+        this.gender = gender;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getDispenserId() {
         return dispenserId;
     }

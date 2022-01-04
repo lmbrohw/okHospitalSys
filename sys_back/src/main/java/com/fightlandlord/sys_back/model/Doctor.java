@@ -15,6 +15,16 @@ public class Doctor {
 
     private String password;
 
+    public Doctor() {}
+
+    public Doctor(String doctorId, int gender, int age, String name, String password) {
+        this.doctorId = doctorId;
+        this.gender = gender;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getDoctorId() {
         return doctorId;
     }

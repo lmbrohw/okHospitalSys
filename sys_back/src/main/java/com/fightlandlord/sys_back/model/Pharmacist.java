@@ -11,6 +11,16 @@ public class Pharmacist {
 
     private String password;
 
+    public Pharmacist() {}
+
+    public Pharmacist(String pharmacistId, int gender, int age, String name, String password) {
+        this.pharmacistId = pharmacistId;
+        this.gender = gender;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getPharmacistId() {
         return pharmacistId;
     }

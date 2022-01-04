@@ -4,4 +4,5 @@ import com.fightlandlord.sys_back.model.Dispenser;
 
 public interface DispenserService {
     Dispenser queryById(String dispenserId);
+    int insertDispenser(Dispenser dispenser);
 }

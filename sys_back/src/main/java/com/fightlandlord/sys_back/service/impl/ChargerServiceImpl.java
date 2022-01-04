@@ -19,4 +19,10 @@ public class ChargerServiceImpl implements ChargerService {
         return chargerMapper.selectByPrimaryKey(tableId);
     }
 
+    @Override
+    public int insertcharger(Charger charger) {
+        if (queryById(charger.getChargerId()) == null) return 0;
+        return chargerMapper.insert(charger);
+    }
+
 }

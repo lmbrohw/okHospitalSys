@@ -17,4 +17,10 @@ public class PharmacistServiceImpl implements PharmacistService {
         if(!pharmacistId.substring(0, 2).equals("pm")) return null;
         return pharmacistMapper.selectByPrimaryKey(pharmacistId);
     }
+
+    @Override
+    public int insertPharmacist(Pharmacist pharmacist) {
+        if (queryById(pharmacist.getPharmacistId()) == null) return 0;
+        return pharmacistMapper.insert(pharmacist);
+    }
 }
