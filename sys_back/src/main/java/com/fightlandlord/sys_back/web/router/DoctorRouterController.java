@@ -75,14 +75,21 @@ public class DoctorRouterController {
             Map<String,Object> oneTreatmentInfo = new HashMap<>();
             Date time = registeRecord.getRegisterTime();
             String doctorId = registeRecord.getRegisterChoice();
-            DossierTable dossierTableRecord = dossierTableService.queryById(registeRecord.getDossierTableId());
-            Map<String, Object> medicineTableRecord = medicineTableService.getMedicineTableJSON(medicineTableService.queryById(registeRecord.getMedicineTableId()));
-            Map<String, Object> checkTableRecord = checkTableService.getCheckTableJSON((checkTableService.queryById(registeRecord.getCheckTableId())));
+
+            if (registeRecord.getDossierTableId() != null){
+                DossierTable dossierTableRecord = dossierTableService.queryById(registeRecord.getDossierTableId());
+                oneTreatmentInfo.put("dossierTable", dossierTableRecord);
+            }
+            if (registeRecord.getMedicineTableId() != null){
+                Map<String, Object> medicineTableRecord = medicineTableService.getMedicineTableJSON(medicineTableService.queryById(registeRecord.getMedicineTableId()));
+                oneTreatmentInfo.put("medicineTable", medicineTableRecord);
+            }
+            if (registeRecord.getCheckTableId() != null){
+                Map<String, Object> checkTableRecord = checkTableService.getCheckTableJSON((checkTableService.queryById(registeRecord.getCheckTableId())));
+                oneTreatmentInfo.put("checkTable", checkTableRecord);
+            }
             oneTreatmentInfo.put("time", time);
             oneTreatmentInfo.put("doctorId", doctorId);
-            oneTreatmentInfo.put("dossierTable", dossierTableRecord);
-            oneTreatmentInfo.put("medicineTable", medicineTableRecord);
-            oneTreatmentInfo.put("checkTable", checkTableRecord);
             allRecords.add(oneTreatmentInfo);
         }
 
