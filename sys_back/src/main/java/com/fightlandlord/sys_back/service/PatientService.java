@@ -17,6 +17,6 @@ public interface PatientService {
     Register getAPatient(String doctorId);
     List<DossierTable> getPatientRecord(String patientID);
 
-
+    int insertPatient(Patient patient);
 
 }

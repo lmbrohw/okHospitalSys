@@ -39,6 +39,12 @@ public class PatientServiceImpl implements PatientService {
     }
 
     @Override
+    public int insertPatient(Patient patient) {
+        if(queryById(patient.getPatientId()) != null) return 0;
+        return patientMapper.insert(patient);
+    }
+
+    @Override
     public Register getAPatient(String doctorId) {
         Doctor doctor = doctorService.queryById(doctorId);
         if(doctor == null) return null;

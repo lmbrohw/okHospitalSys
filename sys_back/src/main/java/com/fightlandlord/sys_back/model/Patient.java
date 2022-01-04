@@ -13,6 +13,16 @@ public class Patient {
 
     private String password;
 
+    public Patient() {}
+
+    public Patient(String patientId, int gender, int age, String name, String password) {
+        this.patientId = patientId;
+        this.gender = gender;
+        this.age = age;
+        this.name = name;
+        this.password = password;
+    }
+
     public String getPatientId() {
         return patientId;
     }

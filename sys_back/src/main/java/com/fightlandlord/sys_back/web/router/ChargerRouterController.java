@@ -65,28 +65,6 @@ public class ChargerRouterController {
         if(subscribeList.size() == 0) return Response.error().message("该患者没有预约记录！");
         return Response.ok().message("获取该用户最近预约记录成功！").data("subscribe", subscribeList.get(0));
     }
-    
-//    /**
-//    * @Author: hudongyue
-//    * @Description: 收费者更改收费单状态
-//    * @DateTime: 2021/12/26 21:37
-//    * @Params: tableId state
-//    * @Return 成功与否
-//    */
-//    @PostMapping(value = "/sendChargeTable")
-//    public Response sendChargeTable(@RequestParam("chargeItemId") String chargeItemId,
-//                                         @RequestParam("patientId") String patientId,
-//                                         @RequestParam("chargerId") String chargerId,
-//                                         @RequestParam("chargePrice") float chargePrice){
-//        // ************************************* id 判断 ***********************
-//
-//        ChargeTable chargeTable = new ChargeTable(chargeItemId, patientId, chargerId, new Date(),chargePrice);
-//
-//        if(chargeTableService.insertChargeTable(chargeTable) == 0)
-//            return Response.error().message("插入chargeTable失败！");
-//
-//        return Response.ok().message("插入chargeTable成功！");
-//    }
 
     /**
      * @Author: hudongyue
