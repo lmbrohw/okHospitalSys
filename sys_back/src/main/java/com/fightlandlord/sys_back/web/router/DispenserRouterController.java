@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSONObject;
 import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
-import com.fightlandlord.sys_back.util.UUIDGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,13 +60,6 @@ public class DispenserRouterController {
         return Response.ok().message("成功获取medicineTable!").data(jsonMap);
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/27 16:29
-     * @Params:
-     * @Return
-     */
     @GetMapping(value = "/getAMedicineTable")
     public Response getAMedicineTable(){
         MedicineTable medicineTable = medicineTableService.getAMedicineTable(1);
@@ -76,13 +68,6 @@ public class DispenserRouterController {
         return Response.ok().message("获取处方单成功！").data(jsonMap);
     }
 
-    /**
-    * @Author: hudongyue
-    * @Description: 
-    * @DateTime: 2021/12/28 16:01
-    * @Params: 
-    * @Return 
-    */
     @PostMapping(value = "/sendWithdrawMedicineTable")
     public Response sendWithdrawMedicineTable(@RequestBody String json){
         JSONObject jsonObject= JSON.parseObject(json);
@@ -100,9 +85,6 @@ public class DispenserRouterController {
             totalPrice += medicineList.getMedicinePrice() * withdrawMedicineTableMap.getIntValue(medicineListId);
         }
 
-        /**
-        * @Author: 判定换成impl中的接口
-        */
         if(medicineTableService.queryById(medicineTableId) == null) return Response.error().message("该medicineTable不存在！");
         if(patientService.queryById(patientId) == null) return Response.error().message("该patient不存在！");
         if(doctorService.queryById(doctorId) == null) return Response.error().message("该doctor不存在！");
@@ -132,7 +114,6 @@ public class DispenserRouterController {
         chargeTable.setChargeState(0);
 
         /** change medicineTable state **/
-        /** modify withdrawTableId in register **/
         //在 Register 中填写 withdrawMedicineTableId
         Register register = registerService.queryByMedicneId(withdrawMedicineTable.getMedicineTableId());
         register.setWithdrawMedicineTableId(withdrawMedicineTable.getWithdrawMedicineTableId());
@@ -145,13 +126,6 @@ public class DispenserRouterController {
         return Response.ok().message("退药单生成成功！").data("withdrawMedicineTableId", withdrawMedicineTable.getWithdrawMedicineTableId());
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:01
-     * @Params:
-     * @Return
-     */
     @PostMapping(value = "/sendMedicineTableState")
     public Response sendMedicineTableState(@RequestParam("tableId") String medicineTableId,
                                            @RequestParam("dispenserId") String dispenserId,

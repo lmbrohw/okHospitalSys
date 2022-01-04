@@ -40,13 +40,6 @@ public class PharmacistRouterController {
         return "sendSubscribe";
     }
 
-    /**
-    * @Author: hudongyue
-    * @Description: 
-    * @DateTime: 2021/12/28 16:26
-    * @Params: 
-    * @Return 
-    */
     @GetMapping(value = "/getAMedicineTable")
     public Response getAMedicineTable(){
         MedicineTable medicineTable = medicineTableService.getAMedicineTable(0);
@@ -54,14 +47,7 @@ public class PharmacistRouterController {
         if(jsonMap == null || jsonMap.size() == 0) return Response.ok().message("暂无代配药处方单！");
         return Response.ok().message("获取处方单成功！").data(jsonMap);
     }
-    
-    /**
-    * @Author: hudongyue
-    * @Description: 
-    * @DateTime: 2021/12/28 16:28
-    * @Params: 
-    * @Return 
-    */
+
     @PostMapping(value = "/sendMedicineTableState")
     public Response sendMedicineTableState(@RequestParam("tableId") String medicineTableId,
                                            @RequestParam("pharmacistId") String pharmacistId){

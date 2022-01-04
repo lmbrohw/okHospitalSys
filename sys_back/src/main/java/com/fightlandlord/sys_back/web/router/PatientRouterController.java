@@ -66,13 +66,6 @@ public class PatientRouterController {
         return Response.error().message("插入数据库失败!");
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description: 取消预约
-     * @DateTime: 2021/12/28 16:16
-     * @Params:
-     * @Return
-     */
     @PostMapping(value = "/sendSubscribeState")
     public Response sendSubscribeState(@RequestParam("subscribeId") String subscribeId,
                                        @RequestParam("changeToState") int changeToState){

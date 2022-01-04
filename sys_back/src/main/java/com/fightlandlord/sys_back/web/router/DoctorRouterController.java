@@ -2,7 +2,6 @@ package com.fightlandlord.sys_back.web.router;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.fightlandlord.sys_back.dao.RegisterMapper;
 import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
@@ -55,13 +54,6 @@ public class DoctorRouterController {
             return Response.ok().message("获取成功").data("patientInfo", register);
     }
 
-    /**
-    * @Author: hudongyue
-    * @Description:
-    * @DateTime: 2021/12/28 16:11
-    * @Params:
-    * @Return
-    */
     @GetMapping(value = "/getPatientRecord")
     public Response getPatientRecord(String patientId){
         List<Register> registeRecords = registerService.getRegisterByPatientId(patientId);
@@ -85,39 +77,18 @@ public class DoctorRouterController {
         return Response.ok().message("查询成功").data("treatmentInfoList", allRecords);
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:11
-     * @Params:
-     * @Return
-     */
     @GetMapping(value = "/getMedcineList")
     public Response getMedcineList(){
 
         return Response.ok().message("查询成功").data("medicineListInfo", medicineListService.getMedicineList());
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:11
-     * @Params:
-     * @Return
-     */
     @GetMapping(value = "/getCheckList")
     public Response getCheckList(){
 
         return Response.ok().message("查询成功").data("checkListInfo",checkListService.getCheckList());
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:11
-     * @Params:
-     * @Return
-     */
     @PostMapping(value = "/sendDossierTable")
     public Response sendDossierTable(String registerId, String doctorId, String patientId, String description){
         /** modify withdrawTableId in register **/
@@ -140,13 +111,6 @@ public class DoctorRouterController {
         }
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:11
-     * @Params:
-     * @Return
-     */
     @PostMapping(value = "/sendCheckTable")
     public Response sendCheckTable(@RequestBody String params){
 
@@ -199,13 +163,6 @@ public class DoctorRouterController {
         return Response.ok().message("上传成功").data("checkTableId", checkTableId);
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description:
-     * @DateTime: 2021/12/28 16:11
-     * @Params:
-     * @Return
-     */
     @PostMapping(value = "/sendMedicineTable")
     public Response sendMedicineTable(@RequestBody String params){
 
@@ -264,13 +221,7 @@ public class DoctorRouterController {
         }
         return Response.ok().message("上传成功").data("medicineTableId", medicineTableId);
     }
-    /**
-    * @Author: hudongyue
-    * @Description: 
-    * @DateTime: 2022/1/3 20:39
-    * @Params: 
-    * @Return 
-    */
+
     @PostMapping(value = "/sendRegisterState")
     public Response sendRegisterState(@RequestParam("tableId") String registerId){
         if(registerService.modifyRegisterState(registerId, 3) == 0)

@@ -1,7 +1,6 @@
 package com.fightlandlord.sys_back.web.router;
 
 import com.fightlandlord.sys_back.model.ChargeTable;
-import com.fightlandlord.sys_back.model.Patient;
 import com.fightlandlord.sys_back.model.Register;
 import com.fightlandlord.sys_back.model.Subscribe;
 import com.fightlandlord.sys_back.service.ChargeTableService;
@@ -51,13 +50,6 @@ public class ChargerRouterController {
         return Response.ok().message("获取账单成功！").data("chargeTable", chargeTable);
     }
 
-    /**
-    * @Author: hudongyue
-    * @Description: 收费者获取预约
-    * @DateTime: 2021/12/26 21:36
-    * @Params: patientId
-    * @Return json格式预约信息
-    */
     @GetMapping(value = "/getSubscribe")
     public Response getSubscribe(@RequestParam("patientId") String patientId){
         if((!patientId.substring(0, 2).equals("pt")) || patientService.queryById(patientId) == null) return Response.error().message("不存在该患者！");
@@ -66,13 +58,6 @@ public class ChargerRouterController {
         return Response.ok().message("获取该用户最近预约记录成功！").data("subscribe", subscribeList.get(0));
     }
 
-    /**
-     * @Author: hudongyue
-     * @Description: 收费者更改收费单状态
-     * @DateTime: 2021/12/26 21:37
-     * @Params: tableId state
-     * @Return 成功与否
-     */
     @PostMapping(value = "/sendChargeTableState")
     public Response sendChargeTableState(@RequestParam("tableId") String chargeTableId,
                                          @RequestParam("chargerId") String chargerId){
@@ -80,14 +65,6 @@ public class ChargerRouterController {
         return chargeTableService.modifyChargeTableState(chargeTableId, chargerId, 1);
     }
 
-
-    /**
-    * @Author: hudongyue
-    * @Description:
-    * @DateTime: 2021/12/27 16:29
-    * @Params:
-    * @Return
-    */
     @PostMapping(value = "/sendRegister")
     public Response sendRegister(@RequestParam("patientId") String patientId,
                                  @RequestParam("registerChoice") String registerChoice,
