@@ -36,4 +36,8 @@ public class CreateAccountRouterController {
             return Response.error().message("创建病人失败！");
         return Response.ok().message("创建病人成功！").data("patientId", patient.getPatientId());
     }
+
+    /**
+     * 
+     */
 }

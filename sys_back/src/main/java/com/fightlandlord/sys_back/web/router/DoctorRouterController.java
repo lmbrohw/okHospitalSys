@@ -130,7 +130,7 @@ public class DoctorRouterController {
 
         int Count = dossierTableService.sendDossierTable(dossierTable);
         if(Count == -1)
-            return Response.error().message("上传出错，请检查病历信息");
+            return Response.error().message("上传出错，请检查病历基本信息");
         else{
             //在 Register 中填写 dossierTableId
             Register register = registerService.queryById(registerId);
@@ -163,7 +163,7 @@ public class DoctorRouterController {
         float sum= 0f;
         for(String i : checkItems.keySet()){
             float price = checkListService.getCheckItemPriceById(i);
-            if (price == -1) return Response.error().message("上传出错，请检查申请单信息");
+            if (price == -1) return Response.error().message("上传出错，请检查申请项目信息是否正确");
             sum += price * checkItems.getIntValue(i);
         }
         checkTable.setTotalPrice(sum);
@@ -180,7 +180,7 @@ public class DoctorRouterController {
 
         int Count = checkTableService.sendCheckTable(checkTable);
         if (Count == -1)
-            return Response.error().message("上传出错，请检查申请单信息");
+            return Response.error().message("上传出错，请检查申请单基本信息");
         else{
             //将 medicineTableId 字段传入 register
             int d = registerService.addTreatInfo(register);
@@ -222,8 +222,10 @@ public class DoctorRouterController {
         //计算 totalprice
         float sum= 0f;
         for(String i : medicineItems.keySet()){
+
+            if (medicineItems.getIntValue(i) > medicineListService.queryInventoryById(i)) return Response.error().message("上传出错，请检查处方单药品信息");
             float price = medicineListService.getMedicinePriceById(i);
-            if (price == -1) return Response.error().message("上传出错，请检查处方单信息");
+            if (price == -1) return Response.error().message("上传出错，请检查处方单药品信息");
             sum += price * medicineItems.getIntValue(i);
         }
         medicineTable.setTotalPrice(sum);
@@ -241,7 +243,7 @@ public class DoctorRouterController {
 
         int Count = medicineTableService.sendMedicineTable(medicineTable);
         if (Count == -1)
-            return Response.error().message("上传出错，请检查处方单信息");
+            return Response.error().message("上传出错，请检查处方单基本信息");
         else{
             //将medicineTableId字段传入register
             int d = registerService.addTreatInfo(register);

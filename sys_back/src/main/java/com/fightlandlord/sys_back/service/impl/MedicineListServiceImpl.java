@@ -41,4 +41,12 @@ public class MedicineListServiceImpl implements MedicineListService {
         medicineList.setMedicineNum(oldNum-num);
         return medicineListMapper.updateByPrimaryKeySelective(medicineList);
     }
+
+    @Override
+    public float queryInventoryById(String medicineListId) {
+        if (queryById(medicineListId) == null) return -1f;
+        return queryById(medicineListId).getMedicineNum();
+    }
+
+
 }
