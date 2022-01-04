@@ -39,6 +39,9 @@ public class DispenserRouterController {
     @Autowired
     ChargeTableService chargeTableService;
 
+    @Autowired
+    RegisterService registerService;
+
 
 
     /**
@@ -130,6 +133,11 @@ public class DispenserRouterController {
 
         /** change medicineTable state **/
         /** modify withdrawTableId in register **/
+        //在 Register 中填写 withdrawMedicineTableId
+        Register register = registerService.queryByMedicneId(withdrawMedicineTable.getMedicineTableId());
+        register.setWithdrawMedicineTableId(withdrawMedicineTable.getWithdrawMedicineTableId());
+        if(registerService.addTreatInfo(register) == 0)
+            return Response.error().message("向register表添加withdrawMedicineTableId出错！");
 
         if(chargeTableService.insertChargeTable(chargeTable) == 0)
             return Response.error().message("退药单对应账单存入数据库出错！");

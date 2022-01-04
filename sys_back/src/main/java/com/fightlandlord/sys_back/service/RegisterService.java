@@ -12,4 +12,8 @@ public interface RegisterService {
     Register queryById(String registerId);
 
     int modifyRegisterState(String registerId, int state);
+
+    int addTreatInfo(Register register);
+
+    Register queryByMedicneId(String medicineId);
 }

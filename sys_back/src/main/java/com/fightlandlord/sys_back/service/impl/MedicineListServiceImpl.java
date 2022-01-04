@@ -28,6 +28,9 @@ public class MedicineListServiceImpl implements MedicineListService {
     @Override
     public Float getMedicinePriceById(String medicineListId) {
         MedicineList medicineList = medicineListMapper.selectByPrimaryKey(medicineListId);
+        if (medicineList == null){
+            return -1f;
+        }
         return medicineList.getMedicinePrice();
     }
 

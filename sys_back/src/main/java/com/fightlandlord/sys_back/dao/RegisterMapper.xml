@@ -33,6 +33,14 @@
     where patient_id = #{patientId} and register_state = 3 order by register_time asc
   </select>
 
+  <!-- 配药师通过medicineTableId查询挂号记录 -->
+  <select id="selectByMedicineTableId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from register
+    where medicine_table_id = #{medicineTableId,jdbcType=VARCHAR}
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

@@ -2,6 +2,7 @@ package com.fightlandlord.sys_back.web.router;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.fightlandlord.sys_back.dao.RegisterMapper;
 import com.fightlandlord.sys_back.model.*;
 import com.fightlandlord.sys_back.service.*;
 import com.fightlandlord.sys_back.util.Response;
@@ -118,7 +119,7 @@ public class DoctorRouterController {
      * @Return
      */
     @PostMapping(value = "/sendDossierTable")
-    public Response sendDossierTable(String doctorId, String patientId, String description){
+    public Response sendDossierTable(String registerId, String doctorId, String patientId, String description){
         /** modify withdrawTableId in register **/
 
         DossierTable dossierTable = new DossierTable();
@@ -126,11 +127,17 @@ public class DoctorRouterController {
         dossierTable.setDoctorId(doctorId);
         dossierTable.setPatientId(patientId);
         dossierTable.setDescription(description);
+
         int Count = dossierTableService.sendDossierTable(dossierTable);
         if(Count == -1)
             return Response.error().message("上传出错，请检查病历信息");
-        else
-            return Response.ok().message("病历上传成功");
+        else{
+            //在 Register 中填写 dossierTableId
+            Register register = registerService.queryById(registerId);
+            register.setCheckTableId(dossierTable.getDossierTableId());
+            int a = registerService.addTreatInfo(register);
+            return Response.ok().message("病历上传成功").data("dossierTableId", dossierTable.getDossierTableId());
+        }
     }
 
     /**
@@ -152,24 +159,32 @@ public class DoctorRouterController {
         checkTable.setCheckTableId(checkTableId);
         checkTable.setPatientId(jsonObject.getString("patientId"));
         checkTable.setDoctorId(jsonObject.getString("doctorId"));
-        //计算 totalprice
+        /** 计算 totalprice **/
         float sum= 0f;
         for(String i : checkItems.keySet()){
-            sum += checkListService.getCheckItemPriceById(i) * checkItems.getIntValue(i);
+            float price = checkListService.getCheckItemPriceById(i);
+            if (price == -1) return Response.error().message("上传出错，请检查申请单信息");
+            sum += price * checkItems.getIntValue(i);
         }
         checkTable.setTotalPrice(sum);
-        //insert到chargeTable
+        //添加 ChagrgeTable 记录
         ChargeTable chargeTable = new ChargeTable();
         chargeTable.setChargeTableId(checkTableId);
         chargeTable.setPatientId(jsonObject.getString("patientId"));
         chargeTable.setChargePrice(sum);
         chargeTable.setChargeState(0);
         chargeTable.setChargeCreateTime(new Date());
+        //在 Register 中填写 checkTableId
+        Register register = registerService.queryById(jsonObject.getString("registerId"));
+        register.setCheckTableId(checkTableId);
 
         int Count = checkTableService.sendCheckTable(checkTable);
         if (Count == -1)
             return Response.error().message("上传出错，请检查申请单信息");
         else{
+            //将 medicineTableId 字段传入 register
+            int d = registerService.addTreatInfo(register);
+            //insert 到 chargeTable
             int c = chargeTableService.insertChargeTable(chargeTable);
             //把检申请项目信息insert到checkTableArray
             for(String i : checkItems.keySet()){
@@ -181,7 +196,7 @@ public class DoctorRouterController {
             }
         }
 
-        return Response.ok().message("上传成功");
+        return Response.ok().message("上传成功").data("checkTableId", checkTableId);
     }
 
     /**
@@ -207,21 +222,30 @@ public class DoctorRouterController {
         //计算 totalprice
         float sum= 0f;
         for(String i : medicineItems.keySet()){
-            sum += medicineListService.getMedicinePriceById(i) * medicineItems.getIntValue(i);
+            float price = medicineListService.getMedicinePriceById(i);
+            if (price == -1) return Response.error().message("上传出错，请检查处方单信息");
+            sum += price * medicineItems.getIntValue(i);
         }
         medicineTable.setTotalPrice(sum);
         medicineTable.setMedicineTableState(0);
-        //insert到chargeTable
+        //添加 ChagrgeTable 记录
         ChargeTable chargeTable = new ChargeTable();
         chargeTable.setChargeTableId(medicineTableId);
         chargeTable.setChargePrice(sum);
         chargeTable.setPatientId(jsonObject.getString("patientId"));
         chargeTable.setChargeState(0);
         chargeTable.setChargeCreateTime(new Date());
+        //在 Register 中填写 medicineTableId
+        Register register = registerService.queryById(jsonObject.getString("registerId"));
+        register.setMedicineTableId(medicineTableId);
+
         int Count = medicineTableService.sendMedicineTable(medicineTable);
         if (Count == -1)
             return Response.error().message("上传出错，请检查处方单信息");
         else{
+            //将medicineTableId字段传入register
+            int d = registerService.addTreatInfo(register);
+            //insert到chargeTable
             int c = chargeTableService.insertChargeTable(chargeTable);
             for(String i : medicineItems.keySet()){
                 //把处方单的药品信息insert到medicineTableArray
@@ -236,7 +260,7 @@ public class DoctorRouterController {
                 int b = medicineListService.updateMedicineNum(i, medicineItems.getIntValue(i));
             }
         }
-        return Response.ok().message("上传成功");
+        return Response.ok().message("上传成功").data("medicineTableId", medicineTableId);
     }
     /**
     * @Author: hudongyue

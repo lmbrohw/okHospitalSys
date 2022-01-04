@@ -35,4 +35,17 @@ public class RegisterServiceImpl implements RegisterService {
         register.setRegisterState(state);
         return registerMapper.updateByPrimaryKeySelective(register);
     }
+
+    @Override
+    public int addTreatInfo(Register register) {
+        return registerMapper.updateByPrimaryKeySelective(register);
+    }
+
+    @Override
+    public Register queryByMedicneId(String medicineTableId) {
+        if(!medicineTableId.substring(0, 2).equals("mt")) return null;
+        return registerMapper.selectByMedicineTableId(medicineTableId);
+    }
+
+
 }

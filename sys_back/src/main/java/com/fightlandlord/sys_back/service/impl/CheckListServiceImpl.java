@@ -17,6 +17,7 @@ public class CheckListServiceImpl implements CheckListService {
     @Override
     public Float getCheckItemPriceById(String checkListId) {
         CheckList checkListItem = checkListMapper.selectByPrimaryKey(checkListId);
+        if (checkListItem == null) return -1f;
         return checkListItem.getCheckPrice();
     }
 

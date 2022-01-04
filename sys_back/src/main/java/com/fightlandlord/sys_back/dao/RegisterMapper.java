@@ -21,4 +21,6 @@ public interface RegisterMapper {
     Register getAPatient(String doctorId);
 
     List<Register> getRegistRecordByPatientId(String patientID);
+
+    Register selectByMedicineTableId(String medicineTableId);
 }
