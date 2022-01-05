@@ -58,8 +58,8 @@ public class MedicineTableServiceImpl implements MedicineTableService {
         jsonMap.put("totalPrice", medicineTable.getTotalPrice());
 
         // 拼接medicineTableArray
+        List<Object> medicineTableArraysList = new LinkedList<>();
         if(medicineTableArrays.size() != 0) {
-            List<Object> medicineTableArraysList = new LinkedList<>();
             for(MedicineTableArray medicineTableArray : medicineTableArrays) {
                 Map<String, Object> medicineTableArrayMap = new HashMap<String, Object>();
                 MedicineList medicineList = medicineListService.queryById(medicineTableArray.getMedicineListId());
@@ -71,9 +71,8 @@ public class MedicineTableServiceImpl implements MedicineTableService {
 
                 medicineTableArraysList.add(medicineTableArrayMap);
             }
-            jsonMap.put("medicineTableArray", medicineTableArraysList);
         }
-
+        jsonMap.put("medicineTableArray", medicineTableArraysList);
         return jsonMap;
     }
 
@@ -89,7 +88,7 @@ public class MedicineTableServiceImpl implements MedicineTableService {
     @Override
     public Response modifyMedicineTableState(String medicineTableId, String roleId, int changeToState) {
         // 查询是否存在该medicineTable
-        if(medicineTableId.substring(0, 2).equals("mt")) {
+        if(medicineTableId.length() > 2 && medicineTableId.substring(0, 2).equals("mt")) {
             MedicineTable medicineTable = medicineTableMapper.selectByPrimaryKey(medicineTableId);
             int role = -1;
             if(roleId.substring(0, 2).equals("pm"))

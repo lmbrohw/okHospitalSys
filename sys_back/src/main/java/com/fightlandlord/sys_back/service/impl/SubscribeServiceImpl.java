@@ -39,7 +39,6 @@ public class SubscribeServiceImpl implements SubscribeService {
 
     @Override
     public int querySubscribeNumBydoctorId(String doctorId, Date subscribeTime) {
-
         return subscribeMapper.getSubscribeNumBydoctorId(doctorId, subscribeTime);
     }
 }
