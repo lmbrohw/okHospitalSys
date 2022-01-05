@@ -60,7 +60,7 @@ public class PatientRouterController {
         }
 
         /**
-         * 此处date还需处理
+         * 此处date还需处理（已处理），同时限制预约人数
         */
 
 //        Date date = new Date(subscribeTime);

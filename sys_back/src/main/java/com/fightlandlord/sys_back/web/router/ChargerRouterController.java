@@ -11,6 +11,8 @@ import com.fightlandlord.sys_back.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -70,11 +72,12 @@ public class ChargerRouterController {
     public Response sendRegister(@RequestParam("patientId") String patientId,
                                  @RequestParam("registerChoice") String registerChoice,
                                  @RequestParam("registerTime") String registerTime,
-                                 @RequestParam("isSubscribe") int isSubscribe){
-        /***** 时间处理 查询判断******/
+                                 @RequestParam("isSubscribe") int isSubscribe) throws ParseException {
+        /***** 时间处理 查询判断****已处理**/
         if(patientService.queryById(patientId) == null) return Response.error().message("不存在该病人！");
-
-        Register register = new Register(patientId, registerChoice, new Date(), isSubscribe);
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = ft.parse(registerTime);
+        Register register = new Register(patientId, registerChoice, date, isSubscribe);
 
         // chargeItemId, patientId, chargerId, chargeCreateTime, chargePrice
         ChargeTable chargeTable = new ChargeTable();
