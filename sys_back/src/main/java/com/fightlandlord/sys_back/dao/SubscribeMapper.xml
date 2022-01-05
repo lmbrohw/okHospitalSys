@@ -21,6 +21,14 @@
     where patient_id = #{patientId,jdbcType=VARCHAR} order by subscribe_time desc
   </select>
 
+  <!--  根据doctorId和time查询预约人数 -->
+  <select id="getSubscribeNumBydoctorId"  resultType="Integer">
+    select
+    count(*)
+    from subscribe
+    where subscribe_choice = #{doctorId,jdbcType=VARCHAR} and subscribe_time =#{subscribeTime} and subscribe_state &lt;2
+  </select>
+
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />

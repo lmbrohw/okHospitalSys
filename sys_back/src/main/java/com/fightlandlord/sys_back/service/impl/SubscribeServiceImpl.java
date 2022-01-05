@@ -6,6 +6,8 @@ import com.fightlandlord.sys_back.service.SubscribeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -33,5 +35,11 @@ public class SubscribeServiceImpl implements SubscribeService {
     @Override
     public int modifyById(Subscribe subscribe) {
         return subscribeMapper.updateByPrimaryKeySelective(subscribe);
+    }
+
+    @Override
+    public int querySubscribeNumBydoctorId(String doctorId, Date subscribeTime) {
+
+        return subscribeMapper.getSubscribeNumBydoctorId(doctorId, subscribeTime);
     }
 }

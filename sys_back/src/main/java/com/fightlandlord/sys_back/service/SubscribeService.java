@@ -3,6 +3,7 @@ package com.fightlandlord.sys_back.service;
 import com.fightlandlord.sys_back.model.ChargeTable;
 import com.fightlandlord.sys_back.model.Subscribe;
 
+import java.util.Date;
 import java.util.List;
 
 public interface SubscribeService {
@@ -14,4 +15,6 @@ public interface SubscribeService {
     int insertSubscribe(Subscribe subscribe);
 
     int modifyById(Subscribe subscribe);
+
+    int querySubscribeNumBydoctorId(String doctorId, Date subscribeTime);
 }

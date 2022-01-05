@@ -9,6 +9,9 @@ import com.fightlandlord.sys_back.service.SubscribeService;
 import com.fightlandlord.sys_back.util.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
@@ -33,7 +36,7 @@ public class PatientRouterController {
     * @Return 
     */
     @PostMapping(value = "/sendSubscribe")
-    public Response sendSubscribe(@RequestBody String json){
+    public Response sendSubscribe(@RequestBody String json) throws ParseException {
         JSONObject jsonObject= JSON.parseObject(json);
         String patientId=jsonObject.getString("patientId");
         String subscribeChoice=jsonObject.getString("subscribeChoice");
@@ -60,8 +63,18 @@ public class PatientRouterController {
          * 此处date还需处理
         */
 
-        Subscribe newSubscribe = new Subscribe(patientId, subscribeChoice, new Date());
+//        Date date = new Date(subscribeTime);
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = ft.parse(subscribeTime);
 
+        Subscribe newSubscribe = new Subscribe(patientId, subscribeChoice, date);
+//        System.out.println(subscribeService.querySubscribeNumBydoctorId(newSubscribe.getSubscribeChoice(), newSubscribe.getSubscribeTime()));
+        if(newSubscribe.getSubscribeChoice().substring(0,2).equals("dt") && subscribeService.querySubscribeNumBydoctorId(newSubscribe.getSubscribeChoice(), newSubscribe.getSubscribeTime()) >= 10){
+            return Response.error().message("当前时间段预约人数过多，请重新选择预约时间或医生");
+        }
+        if(newSubscribe.getSubscribeChoice().substring(0,2).equals("dp") && subscribeService.querySubscribeNumBydoctorId(newSubscribe.getSubscribeChoice(), newSubscribe.getSubscribeTime()) >=30){
+            return Response.error().message("当前时间段预约人数过多，请重新选择预约时间或医生");
+        }
         if (subscribeService.insertSubscribe(newSubscribe) != 0)
             return Response.ok().message("预约成功");
         return Response.error().message("插入数据库失败!");
