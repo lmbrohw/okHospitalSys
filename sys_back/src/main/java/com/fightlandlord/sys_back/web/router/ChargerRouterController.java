@@ -75,7 +75,7 @@ public class ChargerRouterController {
                                  @RequestParam("isSubscribe") int isSubscribe) throws ParseException {
         /***** 时间处理 查询判断****已处理**/
         if(patientService.queryById(patientId) == null) return Response.error().message("不存在该病人！");
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = ft.parse(registerTime);
         Register register = new Register(patientId, registerChoice, date, isSubscribe);
 

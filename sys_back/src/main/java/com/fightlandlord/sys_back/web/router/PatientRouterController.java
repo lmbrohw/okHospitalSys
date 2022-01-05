@@ -72,7 +72,7 @@ public class PatientRouterController {
         */
 
 //        Date date = new Date(subscribeTime);
-        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Date date = ft.parse(subscribeTime);
 
         Subscribe newSubscribe = new Subscribe(patientId, subscribeChoice, date);
