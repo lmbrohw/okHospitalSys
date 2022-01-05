@@ -90,7 +90,7 @@ public class ChargerRouterController {
 
         if(registerService.insertRegister(register) == 0 || chargeTableService.insertChargeTable(chargeTable) == 0)
             return Response.error().message("插入register失败！");
-        return Response.ok().message("插入register成功！");
+        return Response.ok().message("插入register成功！").data("chargeTableId", chargeTable.getChargeTableId());
     }
 }
 
