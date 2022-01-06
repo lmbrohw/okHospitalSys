@@ -96,8 +96,8 @@ public class DoctorRouterController {
         return Response.ok().message("查询成功").data("treatmentInfoList", allRecords);
     }
 
-    @GetMapping(value = "/getMedcineList")
-    public Response getMedcineList(){
+    @GetMapping(value = "/getMedicineList")
+    public Response getMedicineList(){
         /**
          *
          *

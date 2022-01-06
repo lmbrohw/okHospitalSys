@@ -67,9 +67,9 @@ public class DispenserRouterController {
     }
 
     @PostMapping(value = "/sendWithdrawMedicineTable")
-    public Response sendWithdrawMedicineTable(@RequestBody String json){
-        JSONObject jsonObject= JSON.parseObject(json);
-        String medicineTableId=jsonObject.getString("medicineTableId");
+    public Response sendWithdrawMedicineTable(@RequestParam("medicineTableId") String medicineTableId){
+//        JSONObject jsonObject= JSON.parseObject(json);
+//        String medicineTableId=jsonObject.getString("medicineTableId");
 //        String patientId=jsonObject.getString("patientId");
 //        String doctorId=jsonObject.getString("doctorId");
 //        String dispenserId=jsonObject.getString("dispenserId");
@@ -117,6 +117,8 @@ public class DispenserRouterController {
         /** change medicineTable state **/
         //在 Register 中填写 withdrawMedicineTableId
         Register register = registerService.queryByMedicneId(withdrawMedicineTable.getMedicineTableId());
+
+
         register.setWithdrawMedicineTableId(withdrawMedicineTable.getWithdrawMedicineTableId());
         if(registerService.addTreatInfo(register) == 0)
             return Response.error().message("向register表添加withdrawMedicineTableId出错！");
